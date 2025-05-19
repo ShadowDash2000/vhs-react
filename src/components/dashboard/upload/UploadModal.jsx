@@ -2,14 +2,17 @@ import {useEffect, useState} from "react";
 import {Box, Button, CloseButton, Dialog, FileUpload, Icon, Portal, useFileUpload} from "@chakra-ui/react";
 import {LuUpload} from "react-icons/lu";
 import useWebSocket, {ReadyState} from "react-use-websocket";
+import {useAppContext} from "../../../context/AppContextProvider.jsx";
 
 const CHUNK_SIZE = 1024 * 1024;
 
 export const UploadModal = () => {
+    const {pb} = useAppContext();
     const [open, setOpen] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [file, setFile] = useState(null);
     const [filePos, setFilePos] = useState(0);
+    const [wsConnect, setWsConnect] = useState(false);
 
     const fileReader = new FileReader();
 
@@ -18,6 +21,7 @@ export const UploadModal = () => {
         accept: ['video/mp4'],
         onFileAccept: (details) => {
             setFile(details.files[0]);
+            setWsConnect(true);
         },
     });
 
@@ -28,12 +32,17 @@ export const UploadModal = () => {
             reconnectAttempts: 10,
             reconnectInterval: 10000,
         },
+        wsConnect,
     );
 
     useEffect(() => {
         switch (readyState) {
             case ReadyState.OPEN:
-                sendJsonMessage('open');
+                sendJsonMessage({
+                    size: file.size,
+                    name: file.name,
+                    token: pb.authStore.token,
+                });
                 break;
             case ReadyState.CLOSED:
 
@@ -42,7 +51,12 @@ export const UploadModal = () => {
     }, [readyState]);
 
     useEffect(() => {
-
+        try {
+            const res = JSON.parse(lastMessage.data);
+            if (res.type === 'part') {
+                nextChunk();
+            }
+        } catch (e) {}
     }, [lastMessage]);
 
     const nextChunk = () => {
@@ -52,15 +66,14 @@ export const UploadModal = () => {
         }
 
         const blob = file.slice(filePos, end);
-        fileReader.readAsArrayBuffer(blob);
-
         setFilePos(filePos + blob.size);
+
+        fileReader.readAsArrayBuffer(blob);
     }
 
     fileReader.onloadend = (e) => {
         if (e.target.readyState !== FileReader.DONE) return;
 
-        nextChunk();
         sendMessage(fileReader.result);
     }
 
@@ -97,7 +110,7 @@ export const UploadModal = () => {
                             }
                             <p>{
                                 file ?
-                                    filePos % file.size
+                                    filePos
                                     : null
                             }</p>
                         </Dialog.Body>

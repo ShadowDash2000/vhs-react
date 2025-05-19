@@ -1,10 +1,11 @@
 import {Table, For, Flex} from "@chakra-ui/react";
-import {Video} from "./Video.jsx";
-import {useVideos} from "../../pocketbase/videos.js";
-import {UploadModal} from "./upload/UploadModal.jsx";
+import {VideoCell} from "./VideoCell.jsx";
+import {UploadModal} from "../dashboard/upload/UploadModal.jsx";
+import {useVideos} from "./context/VideosContext.jsx";
+import {VideoProvider} from "./context/VideoContext.jsx";
 
-export const Videos = () => {
-    const {data: videos} = useVideos();
+export const VideoListTable = () => {
+    const videos = useVideos();
 
     return (
         <Flex direction="column">
@@ -18,9 +19,11 @@ export const Videos = () => {
                 </Table.Header>
                 <Table.Body>
                     <For each={videos}>
-                        {(item, index) => (
-                            <Table.Row key={index}>
-                                <Video video={item}/>
+                        {(item) => (
+                            <Table.Row key={item.id}>
+                                <VideoProvider video={item}>
+                                    <VideoCell/>
+                                </VideoProvider>
                             </Table.Row>
                         )}
                     </For>

@@ -1,10 +1,8 @@
 import {useAppContext} from "../../context/AppContextProvider.jsx";
 import {useNavigate} from "react-router-dom";
-import {QueryErrorResetBoundary} from "@tanstack/react-query";
-import {Suspense, useEffect} from "react";
-import {LuLoader} from "react-icons/lu";
-import {ErrorBoundary} from "react-error-boundary";
-import {Videos} from "../dashboard/Videos.jsx";
+import {useEffect} from "react";
+import {VideoListTable} from "../video/VideoListTable.jsx";
+import {VideosProvider} from "../video/context/VideosContext.jsx";
 
 export const Dashboard = () => {
     const {isAuth} = useAppContext();
@@ -15,20 +13,8 @@ export const Dashboard = () => {
     });
 
     return (
-        <QueryErrorResetBoundary>
-            {() => (
-                <ErrorBoundary
-                    fallbackRender={() => (
-                        <div>
-                            There was an error!
-                        </div>
-                    )}
-                >
-                    <Suspense fallback={<LuLoader/>}>
-                        <Videos flexDirection="row"/>
-                    </Suspense>
-                </ErrorBoundary>
-            )}
-        </QueryErrorResetBoundary>
+        <VideosProvider>
+            <VideoListTable flexDirection="row"/>
+        </VideosProvider>
     )
 }
