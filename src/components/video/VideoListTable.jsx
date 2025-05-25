@@ -2,7 +2,6 @@ import {Table, For, Flex} from "@chakra-ui/react";
 import {VideoCell} from "./VideoCell.jsx";
 import {UploadModal} from "../dashboard/upload/UploadModal.jsx";
 import {useVideos} from "./context/VideosContext.jsx";
-import {VideoProvider} from "./context/VideoContext.jsx";
 
 export const VideoListTable = () => {
     const videos = useVideos();
@@ -21,9 +20,7 @@ export const VideoListTable = () => {
                     <For each={videos}>
                         {(item) => (
                             <Table.Row key={item.id}>
-                                <VideoProvider video={item}>
-                                    <VideoCell/>
-                                </VideoProvider>
+                                <VideoCell video={item}/>
                             </Table.Row>
                         )}
                     </For>

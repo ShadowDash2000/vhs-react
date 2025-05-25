@@ -1,14 +1,29 @@
 import {createContext, useContext} from "react";
+import {useQuery} from "@tanstack/react-query";
+import {LuLoader} from "react-icons/lu";
+import {Text} from "@chakra-ui/react";
 import {useAppContext} from "../../../context/AppContextProvider.jsx";
 
 const VideoContext = createContext(null);
 
-export const VideoProvider = ({video, children}) => {
+export const VideoProvider = ({children, videoId}) => {
     const {pb} = useAppContext();
-    const imageId = video?.preview || video.defaultPreview;
-    video.image = pb.files.getURL(video, imageId);
+    const {isPending, isError, data, error} = useQuery({
+        queryKey: ['video', videoId],
+        queryFn: async () => {
+            return await pb.collection('videos').getOne(videoId);
+        },
+    });
 
-    return <VideoContext.Provider value={video}>
+    if (isPending) {
+        return <LuLoader/>
+    }
+
+    if (isError) {
+        return <Text>Error: {error.message}</Text>
+    }
+
+    return <VideoContext.Provider value={data}>
         {children}
     </VideoContext.Provider>
 }

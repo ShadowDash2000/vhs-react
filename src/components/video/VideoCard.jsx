@@ -1,12 +1,12 @@
 import {Card, Image} from "@chakra-ui/react";
-import {useVideo} from "./context/VideoContext.jsx";
+import {useAppContext} from "../../context/AppContextProvider.jsx";
 
-export const VideoCard = () => {
-    const video = useVideo();
+export const VideoCard = ({video}) => {
+    const {pb} = useAppContext();
 
     return (
-        <Card.Root maxW="sm">
-            <Image src={video.image}/>
+        <Card.Root maxW="sm" as="a" href={`/video/${video.id}`}>
+            <Image src={pb.files.getURL(video, video.preview)}/>
             <Card.Body gap="2">
                 <Card.Title>{video.name}</Card.Title>
             </Card.Body>

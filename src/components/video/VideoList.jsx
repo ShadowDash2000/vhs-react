@@ -10,9 +10,7 @@ export const VideoList = () => {
         <Flex gap={3}>
             <For each={videos}>
                 {(item) => (
-                    <VideoProvider video={item} key={item.id}>
-                        <VideoCard/>
-                    </VideoProvider>
+                    <VideoCard video={item} key={item.id}/>
                 )}
             </For>
         </Flex>
