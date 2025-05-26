@@ -19,7 +19,7 @@ export const VideoDetail = () => {
         >
             <MediaProvider/>
             <DefaultVideoLayout
-                thumbnails="https://files.vidstack.io/sprite-fight/thumbnails.vtt"
+                thumbnails={pb.files.getURL(video, video.webvtt)}
                 icons={defaultLayoutIcons}
             />
         </MediaPlayer>
