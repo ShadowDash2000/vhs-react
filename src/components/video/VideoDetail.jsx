@@ -10,7 +10,13 @@ export const VideoDetail = () => {
     const video = useVideo();
 
     return (
-        <MediaPlayer title={video.name} src={pb.files.getURL(video, video.video)}>
+        <MediaPlayer
+            title={video.name}
+            src={{
+                src: `${import.meta.env.VITE_PB_URL}/api/video/${video.id}/stream?token=${pb.authStore.token}`,
+                type: 'video/mp4',
+            }}
+        >
             <MediaProvider/>
             <DefaultVideoLayout
                 thumbnails="https://files.vidstack.io/sprite-fight/thumbnails.vtt"
