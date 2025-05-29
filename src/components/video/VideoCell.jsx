@@ -6,8 +6,8 @@ export const VideoCell = ({video}) => {
 
     return (
         <>
-            <Table.Cell>
-                <Image maxW="50%" src={pb.files.getURL(video, video.image)}/>
+            <Table.Cell width="20%">
+                <Image width="100%" src={pb.files.getURL(video, video.preview)}/>
             </Table.Cell>
             <Table.Cell>{video.name}</Table.Cell>
         </>

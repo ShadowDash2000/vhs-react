@@ -9,6 +9,8 @@ export const useVideoUpload = (file = null) => {
     const [filePos, setFilePos] = useState(0);
     const [wsConnect, setWsConnect] = useState(false);
     const [uploading, setUploading] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [videoId, setVideoId] = useState("");
 
     const progress = !!file ? Math.round((filePos / file.size) * 100) : 0;
     const fileReader = new FileReader();
@@ -46,8 +48,18 @@ export const useVideoUpload = (file = null) => {
     useEffect(() => {
         try {
             const res = JSON.parse(lastMessage.data);
-            if (res.type === 'part') {
-                nextChunk();
+            switch (res.type) {
+                case 'part':
+                    nextChunk();
+                    break;
+                case 'end':
+                    setSuccess(true);
+                    setWsConnect(false);
+                    break;
+            }
+
+            if (res.videoId) {
+                setVideoId(res.videoId);
             }
         } catch (e) {
         }
@@ -74,5 +86,7 @@ export const useVideoUpload = (file = null) => {
     return {
         uploading,
         progress,
+        success,
+        videoId,
     };
 }

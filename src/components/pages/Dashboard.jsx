@@ -13,7 +13,7 @@ export const Dashboard = () => {
     });
 
     return (
-        <VideosProvider>
+        <VideosProvider pageSize={20}>
             <VideoListTable flexDirection="row"/>
         </VideosProvider>
     )

@@ -7,7 +7,7 @@ import {VideoEditForm} from "./VideoEditForm.jsx";
 export const UploadModal = () => {
     const [open, setOpen] = useState(false);
     const [file, setFile] = useState(null);
-    const {uploading, progress} = useVideoUpload(file);
+    const {uploading, progress, success, videoId} = useVideoUpload(file);
 
     const onFileSet = (file) => {
         setFile(file);
@@ -31,8 +31,19 @@ export const UploadModal = () => {
                             {
                                 uploading ?
                                     <Box>
-                                        <VideoEditForm/>
-                                        <p>{progress}%</p>
+                                        <VideoEditForm
+                                            videoId={videoId}
+                                            onSuccess={() => {
+                                                setOpen(false);
+                                            }}
+                                        />
+                                        <p>
+                                            {
+                                                success
+                                                    ? 'Загрузка завершена'
+                                                    : `${progress}%`
+                                            }
+                                        </p>
                                     </Box> :
                                     <VideoFileUpload onFileSet={onFileSet}/>
                             }
