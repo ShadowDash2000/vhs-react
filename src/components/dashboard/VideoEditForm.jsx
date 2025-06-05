@@ -2,9 +2,9 @@ import {Box, Button, Field, FileUpload, Flex, Icon, Input, Textarea, useFileUplo
 import {useForm} from "react-hook-form";
 import {LuUpload} from "react-icons/lu";
 import {useState} from "react";
-import {useAppContext} from "../../../context/AppContextProvider.jsx";
+import {useAppContext} from "../../context/AppContextProvider.jsx";
 
-export const VideoEditForm = ({videoId, onSuccess}) => {
+export const VideoEditForm = ({videoId, video, onSuccess}) => {
     const {pb} = useAppContext();
 
     const {
@@ -66,14 +66,23 @@ export const VideoEditForm = ({videoId, onSuccess}) => {
                     {...register('name', {required: true})}
                     aria-invalid={errors.name ? "true" : "false"}
                     maxLength={200}
+                    defaultValue={video?.name}
                 />
             </Field.Root>
-            <Textarea
-                placeholder="Описание"
-                {...register('description', {required: false})}
-                aria-invalid={errors.description ? "true" : "false"}
-                maxLength={5000}
-            />
+            <Field.Root required>
+                <Field.Label>
+                    Описание
+                </Field.Label>
+                <Textarea
+                    placeholder="Описание"
+                    {...register('description', {required: false})}
+                    aria-invalid={errors.description ? "true" : "false"}
+                    maxLength={5000}
+                    defaultValue={video?.description}
+                    minH={300}
+                    autoresize
+                />
+            </Field.Root>
             <FileUpload.RootProvider
                 maxW="xl"
                 alignItems="stretch"

@@ -3,6 +3,8 @@ import {Box, Button, ButtonGroup} from "@chakra-ui/react";
 import {NavLink} from "react-router-dom";
 
 export const Header = () => {
+    const {isAuth} = useAppContext();
+
     return (
         <Box
             py={4}
@@ -11,17 +13,20 @@ export const Header = () => {
             justifyContent="justify-between"
             alignItems="items-end"
         >
-            <ButtonGroup>
-                <Button asChild>
-                    <NavLink to="/">Главная</NavLink>
-                </Button>
-                <Button asChild>
-                    <NavLink to="/login">Вход</NavLink>
-                </Button>
-                <Button asChild>
-                    <NavLink to="/dashboard">Dashboard</NavLink>
-                </Button>
-            </ButtonGroup>
+            {
+                isAuth &&
+                <ButtonGroup>
+                    <Button asChild>
+                        <NavLink to="/">Главная</NavLink>
+                    </Button>
+                    <Button asChild>
+                        <NavLink to="/login">Вход</NavLink>
+                    </Button>
+                    <Button asChild>
+                        <NavLink to="/dashboard">Dashboard</NavLink>
+                    </Button>
+                </ButtonGroup>
+            }
         </Box>
     )
 }

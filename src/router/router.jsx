@@ -4,6 +4,7 @@ import {Main} from "../components/pages/Main.jsx";
 import {Login} from "../components/pages/Login.jsx";
 import {Dashboard} from "../components/pages/Dashboard.jsx";
 import {Video} from "../components/pages/Video.jsx";
+import {VideoEdit} from "../components/pages/VideoEdit.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -25,6 +26,13 @@ export const router = createBrowserRouter([
             {
                 path: "/video/:videoId",
                 element: <Video/>,
+                loader: ({params}) => {
+                    return {params};
+                },
+            },
+            {
+                path: "/dashboard/video/:videoId",
+                element: <VideoEdit/>,
                 loader: ({params}) => {
                     return {params};
                 },

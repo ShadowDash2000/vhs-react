@@ -1,8 +1,8 @@
 import {useAppContext} from "../../context/AppContextProvider.jsx";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
-import {VideoListTable} from "../video/VideoListTable.jsx";
 import {VideosProvider} from "../video/context/VideosContext.jsx";
+import {VideoListTable} from "../dashboard/VideoListTable.jsx";
 
 export const Dashboard = () => {
     const {isAuth} = useAppContext();
