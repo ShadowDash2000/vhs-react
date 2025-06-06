@@ -10,9 +10,7 @@ export const VideoProvider = ({children, videoId}) => {
     const {pb} = useAppContext();
     const {isPending, isError, data, error} = useQuery({
         queryKey: ['video', videoId],
-        queryFn: async () => {
-            return await pb.collection('videos').getOne(videoId);
-        },
+        queryFn: async () => await pb.collection('videos').getOne(videoId)
     });
 
     if (isPending) {

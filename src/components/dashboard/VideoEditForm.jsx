@@ -10,10 +10,10 @@ export const VideoEditForm = ({videoId, video, onSuccess}) => {
     const {
         register,
         handleSubmit,
-        formState: {errors},
+        formState,
+        setError
     } = useForm();
 
-    const [error, setError] = useState(null);
     const [preview, setPreview] = useState(null);
 
     const fileUpload = useFileUpload({
@@ -42,11 +42,11 @@ export const VideoEditForm = ({videoId, video, onSuccess}) => {
                 },
             });
 
-            if (!res.ok) setError('Ошибка при сохранении.');
+            if (!res.ok) setError('response','Ошибка при сохранении.');
 
             if (onSuccess) onSuccess();
         } catch (error) {
-            setError(error.message);
+            setError('response','Ошибка при сохранении.');
         }
     }
 
@@ -64,7 +64,7 @@ export const VideoEditForm = ({videoId, video, onSuccess}) => {
                 <Input
                     placeholder="Название"
                     {...register('name', {required: true})}
-                    aria-invalid={errors.name ? "true" : "false"}
+                    aria-invalid={formState.errors.name ? "true" : "false"}
                     maxLength={200}
                     defaultValue={video?.name}
                 />
@@ -76,7 +76,7 @@ export const VideoEditForm = ({videoId, video, onSuccess}) => {
                 <Textarea
                     placeholder="Описание"
                     {...register('description', {required: false})}
-                    aria-invalid={errors.description ? "true" : "false"}
+                    aria-invalid={formState.errors.description ? "true" : "false"}
                     maxLength={5000}
                     defaultValue={video?.description}
                     minH={300}
@@ -100,7 +100,7 @@ export const VideoEditForm = ({videoId, video, onSuccess}) => {
                 </FileUpload.Dropzone>
                 <FileUpload.List/>
             </FileUpload.RootProvider>
-            {error && <Box color="red.500">{error}</Box>}
+            {formState.errors.response && <Box color="red.500">{formState.errors.response}</Box>}
             <Button type="submit" colorPalette="blue" rounded="lg">Сохранить</Button>
         </Flex>
     )

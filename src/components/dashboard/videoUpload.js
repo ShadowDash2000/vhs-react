@@ -61,8 +61,7 @@ export const useVideoUpload = (file = null) => {
             if (res.videoId) {
                 setVideoId(res.videoId);
             }
-        } catch (e) {
-        }
+        } catch (e) {}
     }, [lastMessage]);
 
     const nextChunk = () => {

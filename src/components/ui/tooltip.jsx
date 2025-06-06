@@ -1,7 +1,7 @@
 import { Tooltip as ChakraTooltip, Portal } from '@chakra-ui/react'
 import * as React from 'react'
 
-export const Tooltip = React.forwardRef(function Tooltip(props, ref) {
+export const Tooltip = (props) => {
   const {
     showArrow,
     children,
@@ -9,6 +9,7 @@ export const Tooltip = React.forwardRef(function Tooltip(props, ref) {
     portalled = true,
     content,
     contentProps,
+    ref,
     portalRef,
     ...rest
   } = props
@@ -32,4 +33,4 @@ export const Tooltip = React.forwardRef(function Tooltip(props, ref) {
       </Portal>
     </ChakraTooltip.Root>
   )
-})
+}

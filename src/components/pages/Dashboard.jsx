@@ -10,7 +10,7 @@ export const Dashboard = () => {
 
     useEffect(() => {
         if (!isAuth) navigate('/login');
-    });
+    }, []);
 
     return (
         <VideosProvider pageSize={20}>
