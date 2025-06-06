@@ -25,17 +25,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/video/:videoId",
-                element: <Video/>,
-                loader: ({params}) => {
-                    return {params};
-                },
+                element: <Video/>
             },
             {
                 path: "/dashboard/video/:videoId",
-                element: <VideoEdit/>,
-                loader: ({params}) => {
-                    return {params};
-                },
+                element: <VideoEdit/>
             },
         ],
     }
