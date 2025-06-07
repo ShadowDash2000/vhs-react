@@ -2,7 +2,6 @@ import {useContext, createContext, useMemo, useEffect, useState} from "react";
 import PocketBase from "pocketbase";
 import type {AppProviderType, AppContextProviderProps} from "./types";
 import type {User} from "@shared/types/types";
-import type {UsersRecord} from "../../../pocketbase-types"
 
 const AppContext = createContext<AppProviderType>({} as AppProviderType);
 
@@ -16,7 +15,7 @@ export const AppContextProvider = ({children}: AppContextProviderProps) => {
             pb.collection('users').authRefresh();
             console.log(pb.authStore.record);
 
-            setUser(pb.authStore.record);
+            setUser(pb.authStore.record as User);
         } else {
             pb.authStore.clear();
         }
