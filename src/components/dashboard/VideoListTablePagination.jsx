@@ -2,15 +2,12 @@ import {ButtonGroup, IconButton, Pagination} from "@chakra-ui/react";
 import {LuChevronLeft, LuChevronRight} from "react-icons/lu";
 
 export const VideoListTablePagination = ({count, pageSize, page, onChange}) => {
-    const change = (i) => {
-        onChange(i);
-    }
 
     return (
         <Pagination.Root count={count} pageSize={pageSize} page={page}>
             <ButtonGroup variant="ghost" size="sm" wrap="wrap">
                 <Pagination.PrevTrigger asChild>
-                    <IconButton onClick={() => change(-1)}>
+                    <IconButton onClick={() => onChange(-1)}>
                         <LuChevronLeft/>
                     </IconButton>
                 </Pagination.PrevTrigger>
@@ -25,7 +22,7 @@ export const VideoListTablePagination = ({count, pageSize, page, onChange}) => {
                     )}
                 />
                 <Pagination.NextTrigger asChild>
-                    <IconButton onClick={() => change(1)}>
+                    <IconButton onClick={() => onChange(1)}>
                         <LuChevronRight/>
                     </IconButton>
                 </Pagination.NextTrigger>

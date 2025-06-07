@@ -1,5 +1,5 @@
 import {Table, Image} from "@chakra-ui/react";
-import {useAppContext} from "../../context/AppContextProvider.jsx";
+import {useAppContext} from "../../context/AppContextProvider.tsx";
 import {NavLink} from "react-router-dom";
 
 export const VideoCell = ({video}) => {

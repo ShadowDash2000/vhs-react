@@ -1,15 +1,17 @@
 import {createBrowserRouter} from "react-router-dom";
-import {Layout} from "../components/Layout.jsx";
-import {Main} from "../components/pages/Main.jsx";
-import {Login} from "../components/pages/Login.jsx";
-import {Dashboard} from "../components/pages/Dashboard.jsx";
-import {Video} from "../components/pages/Video.jsx";
-import {VideoEdit} from "../components/pages/VideoEdit.jsx";
+import Layout from "../components/Layout";
+import Main from "../components/pages/Main";
+import {lazy} from "react";
+
+const VideoEdit = lazy(() => import("../components/pages/VideoEdit"));
+const Video = lazy(() => import("../components/pages/Video"));
+const Dashboard = lazy(() => import("../components/pages/Dashboard"));
+const Login = lazy(() => import("../components/pages/Login"));
 
 export const router = createBrowserRouter([
     {
         path: "/",
-        element: <Layout />,
+        element: <Layout/>,
         children: [
             {
                 path: "/",

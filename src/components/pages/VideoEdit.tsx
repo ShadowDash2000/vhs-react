@@ -2,7 +2,7 @@ import {useParams} from "react-router-dom";
 import {VideoProvider} from "../video/context/VideoContext.jsx";
 import {VideoEditDashboard} from "../dashboard/VideoEditDashboard.jsx";
 
-export const VideoEdit = () => {
+const VideoEdit = () => {
     const {videoId} = useParams();
     return (
         <VideoProvider videoId={videoId}>
@@ -10,3 +10,5 @@ export const VideoEdit = () => {
         </VideoProvider>
     )
 }
+
+export default VideoEdit;

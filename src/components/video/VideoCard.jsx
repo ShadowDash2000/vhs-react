@@ -1,5 +1,5 @@
 import {Card, Image} from "@chakra-ui/react";
-import {useAppContext} from "../../context/AppContextProvider.jsx";
+import {useAppContext} from "../../context/AppContextProvider/AppContextProvider.tsx";
 
 export const VideoCard = ({video}) => {
     const {pb} = useAppContext();
