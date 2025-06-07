@@ -2,7 +2,7 @@ import {createContext, useContext} from "react";
 import {useQuery} from "@tanstack/react-query";
 import {LuLoader} from "react-icons/lu";
 import {Text} from "@chakra-ui/react";
-import {useAppContext} from "../../../context/AppContextProvider.jsx";
+import {useAppContext} from "../../../context/AppContextProvider.tsx";
 
 const VideoContext = createContext(null);
 
@@ -10,9 +10,7 @@ export const VideoProvider = ({children, videoId}) => {
     const {pb} = useAppContext();
     const {isPending, isError, data, error} = useQuery({
         queryKey: ['video', videoId],
-        queryFn: async () => {
-            return await pb.collection('videos').getOne(videoId);
-        },
+        queryFn: async () => await pb.collection('videos').getOne(videoId)
     });
 
     if (isPending) {

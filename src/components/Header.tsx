@@ -1,4 +1,4 @@
-import {useAppContext} from "../context/AppContextProvider.jsx";
+import {useAppContext} from "../context/AppContextProvider/AppContextProvider";
 import {Box, Button, ButtonGroup} from "@chakra-ui/react";
 import {NavLink} from "react-router-dom";
 
@@ -14,7 +14,7 @@ export const Header = () => {
             alignItems="items-end"
         >
             {
-                isAuth &&
+                isAuth ?
                 <ButtonGroup>
                     <Button asChild>
                         <NavLink to="/">Главная</NavLink>
@@ -25,7 +25,7 @@ export const Header = () => {
                     <Button asChild>
                         <NavLink to="/dashboard">Dashboard</NavLink>
                     </Button>
-                </ButtonGroup>
+                </ButtonGroup> : null
             }
         </Box>
     )

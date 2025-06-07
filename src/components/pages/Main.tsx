@@ -1,10 +1,12 @@
 import {VideoList} from "../video/VideoList.jsx";
-import {VideosProvider} from "../video/context/VideosContext.jsx";
+import {VideosProvider} from "../video/context/VideosContext.js";
 
-export const Main = () => {
+const Main = () => {
     return (
         <VideosProvider pageSize={24}>
             <VideoList/>
         </VideosProvider>
     )
 }
+
+export default Main;
