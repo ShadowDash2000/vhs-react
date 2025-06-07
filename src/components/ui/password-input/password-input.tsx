@@ -6,7 +6,7 @@ import {
     InputGroup,
     Stack,
     mergeRefs,
-    useControllableState,
+    useControllableState
 } from '@chakra-ui/react'
 import {useRef} from 'react';
 import {LuEye, LuEyeOff} from 'react-icons/lu';
@@ -15,7 +15,7 @@ import type {
     PasswordInputProps,
     VisibilityTriggerProps,
     PasswordStrengthMeterProps
-} from "./types"
+} from "./types";
 
 export const PasswordInput: FC<PasswordInputProps> =
     ({

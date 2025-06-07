@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import useWebSocket, {ReadyState} from "react-use-websocket";
-import {useAppContext} from "../../context/AppContextProvider.jsx";
+import {useAppContext} from "../../context/AppContextProvider.tsx";
 
 const CHUNK_SIZE = 1024 * 1024;
 

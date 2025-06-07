@@ -2,7 +2,7 @@ import {createContext, useContext} from "react";
 import {useQuery} from "@tanstack/react-query";
 import {LuLoader} from "react-icons/lu";
 import {Text} from "@chakra-ui/react";
-import {useAppContext} from "../../../context/AppContextProvider.jsx";
+import {useAppContext} from "../../../context/AppContextProvider.tsx";
 
 const VideoContext = createContext(null);
 

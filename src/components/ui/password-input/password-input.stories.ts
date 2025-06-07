@@ -1,10 +1,13 @@
 import type {Meta, StoryObj} from "@storybook/react-vite";
+import {} from ""
 import {PasswordInput} from "./password-input"
 
 const meta = {
     component: PasswordInput,
     title: "ui/password-input",
-    argTypes:{}
+    argTypes:{
+        
+    }
 } satisfies Meta<typeof PasswordInput>;
 
 export default meta;

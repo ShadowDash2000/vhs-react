@@ -2,7 +2,7 @@ import {Box, Button, Field, FileUpload, Flex, Icon, Input, Textarea, useFileUplo
 import {useForm} from "react-hook-form";
 import {LuUpload} from "react-icons/lu";
 import {useState} from "react";
-import {useAppContext} from "../../context/AppContextProvider.jsx";
+import {useAppContext} from "../../context/AppContextProvider.tsx";
 
 export const VideoEditForm = ({videoId, video, onSuccess}) => {
     const {pb} = useAppContext();
@@ -42,11 +42,17 @@ export const VideoEditForm = ({videoId, video, onSuccess}) => {
                 },
             });
 
-            if (!res.ok) setError('response','Ошибка при сохранении.');
+            if (!res.ok) setError('response',{
+                type: '',
+                message: 'Ошибка при сохранении.'
+            });
 
             if (onSuccess) onSuccess();
         } catch (error) {
-            setError('response','Ошибка при сохранении.');
+            setError('response',{
+                type: '',
+                message: 'Ошибка при сохранении.'
+            });
         }
     }
 

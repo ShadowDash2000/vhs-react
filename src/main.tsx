@@ -4,8 +4,9 @@ import {router} from "./router/router";
 import './main.css';
 import {ChakraProvider, createSystem, defaultConfig, defineConfig} from "@chakra-ui/react";
 import {ColorModeProvider} from "./components/ui/color-mode.jsx";
-import {AppContextProvider} from "./context/AppContextProvider.js";
+import {AppContextProvider} from "./context/AppContextProvider/AppContextProvider.js";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+
 
 const colorModeConfig = {
     forcedTheme: 'dark',

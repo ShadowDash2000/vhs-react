@@ -1,7 +1,12 @@
-import {useAppContext} from "../context/AppContextProvider.jsx";
+import {useAppContext} from "../context/AppContextProvider/AppContextProvider";
 import {Button, Input, Field, Flex} from "@chakra-ui/react";
 import {useForm} from "react-hook-form";
-import {PasswordInput} from "./ui/password-input/password-input.jsx";
+import {PasswordInput} from "./ui/password-input/password-input";
+
+type LoginFormValues = {
+    login: string
+    password: string
+}
 
 export const LoginForm = () => {
     const {pb, setUser} = useAppContext();
@@ -9,9 +14,9 @@ export const LoginForm = () => {
         register,
         handleSubmit,
         formState: {errors}
-    } = useForm();
+    } = useForm<LoginFormValues>();
 
-    const onSubmit = async (values) => {
+    const onSubmit = async (values: LoginFormValues) => {
         const authResult = await pb.collection('users').authWithPassword(
             values['login'],
             values['password'],
