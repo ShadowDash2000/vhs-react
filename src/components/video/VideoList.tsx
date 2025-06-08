@@ -1,9 +1,9 @@
 import {For, Grid} from "@chakra-ui/react";
-import {VideoCard} from "./VideoCard.jsx";
+import {VideoCard} from "./VideoCard";
 import {useVideos} from "./context/VideosContext.jsx";
 
 export const VideoList = () => {
-    const {data: videos, page, setPage} = useVideos();
+    const {data: videos} = useVideos();
 
     return (
         <Grid templateColumns="repeat(4, 1fr)" gap={3}>

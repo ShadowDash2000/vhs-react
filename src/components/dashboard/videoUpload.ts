@@ -1,24 +1,33 @@
 import {useEffect, useState} from "react";
 import useWebSocket, {ReadyState} from "react-use-websocket";
-import {useAppContext} from "../../context/AppContextProvider.tsx";
+import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
+import {createEmptyFile} from "@shared/helpers/createEmptyFile";
 
 const CHUNK_SIZE = 1024 * 1024;
 
-export const useVideoUpload = (file = null) => {
+export const useVideoUpload = () => {
     const {pb} = useAppContext();
-    const [filePos, setFilePos] = useState(0);
-    const [wsConnect, setWsConnect] = useState(false);
-    const [uploading, setUploading] = useState(false);
-    const [success, setSuccess] = useState(false);
-    const [videoId, setVideoId] = useState("");
+    const [filePos, setFilePos] = useState<number>(0);
+    const [wsConnect, setWsConnect] = useState<boolean>(false);
+    const [uploading, setUploading] = useState<boolean>(false);
+    const [success, setSuccess] = useState<boolean>(false);
+    const [videoId, setVideoId] = useState<string>("");
+    const [file, setFile] = useState<File>(createEmptyFile());
 
     const progress = !!file ? Math.round((filePos / file.size) * 100) : 0;
     const fileReader = new FileReader();
 
-    useEffect(() => {
-        setWsConnect(!!file);
-        setUploading(!!file);
-    }, [file]);
+    const startUploading = (file: File) => {
+        setFile(file);
+        setUploading(true);
+        setWsConnect(true);
+    }
+
+    const stopUploading = () => {
+        setUploading(false);
+        setWsConnect(false);
+    }
+
 
     const {sendMessage, sendJsonMessage, lastMessage, readyState} = useWebSocket(
         `${import.meta.env.VITE_WEBSOCKET}/api/upload`,
@@ -40,14 +49,14 @@ export const useVideoUpload = (file = null) => {
                 });
                 break;
             case ReadyState.CLOSED:
-
+                stopUploading();
                 break;
         }
     }, [readyState]);
 
     useEffect(() => {
         try {
-            const res = JSON.parse(lastMessage.data);
+            const res = JSON.parse(lastMessage?.data);
             switch (res.type) {
                 case 'part':
                     nextChunk();
@@ -61,7 +70,9 @@ export const useVideoUpload = (file = null) => {
             if (res.videoId) {
                 setVideoId(res.videoId);
             }
-        } catch (e) {}
+        } catch (e) {
+            console.error(e);
+        }
     }, [lastMessage]);
 
     const nextChunk = () => {
@@ -76,14 +87,16 @@ export const useVideoUpload = (file = null) => {
         fileReader.readAsArrayBuffer(blob);
     }
 
-    fileReader.onloadend = (e) => {
-        if (e.target.readyState !== FileReader.DONE) return;
-
+    fileReader.onloadend = (e: ProgressEvent<FileReader>) => {
+        if (e.target?.readyState !== FileReader.DONE) return;
+        if (!fileReader.result) return;
         sendMessage(fileReader.result);
     }
 
     return {
         uploading,
+        stopUploading,
+        startUploading,
         progress,
         success,
         videoId,

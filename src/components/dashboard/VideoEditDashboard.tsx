@@ -1,9 +1,9 @@
-import {VideoEditForm} from "./VideoEditForm.jsx";
-import {useVideo} from "../video/context/VideoContext.jsx";
+import {VideoEditForm} from "./VideoEditForm";
+import {useVideo} from "../video/context/VideoContext";
 import {Box} from "@chakra-ui/react";
 
 export const VideoEditDashboard = () => {
-    const video = useVideo();
+    const { data: video } = useVideo();
 
     return (
         <Box w="100dvw" md={{w: "50dvw"}}>

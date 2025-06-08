@@ -1,22 +1,22 @@
-import {useState} from "react";
+import {type FC, useState} from "react";
 import {Box, Button, CloseButton, Dialog, Portal} from "@chakra-ui/react";
-import {useVideoUpload} from "./videoUpload.js";
-import {VideoFileUpload} from "./VideoFileUpload.jsx";
-import {VideoEditForm} from "./VideoEditForm.jsx";
+import {useVideoUpload} from "./videoUpload";
+import {VideoFileUpload} from "./VideoFileUpload";
+import {VideoEditForm} from "./VideoEditForm";
 
-export const UploadModal = () => {
-    const [open, setOpen] = useState(false);
-    const [file, setFile] = useState(null);
-    const {uploading, progress, success, videoId} = useVideoUpload(file);
+interface UploadModalProps {}
 
-    const onFileSet = (file) => {
-        setFile(file);
-    }
+export const UploadModal: FC<UploadModalProps> = () => {
+    const [open, setOpen] = useState<boolean>(false);
+    const { uploading, progress, success, videoId, startUploading } = useVideoUpload();
 
     return (
-        <Dialog.Root lazyMount open={open} onOpenChange={(e) => {
-            setOpen(e.open)
-        }}>
+        <Dialog.Root
+            lazyMount
+            open={open}
+            onOpenChange={(e) => {
+                setOpen(e.open)
+            }}>
             <Dialog.Trigger asChild>
                 <Button colorPalette={'blue'} rounded={'lg'}>Upload</Button>
             </Dialog.Trigger>
@@ -45,7 +45,7 @@ export const UploadModal = () => {
                                             }
                                         </p>
                                     </Box> :
-                                    <VideoFileUpload onFileSet={onFileSet}/>
+                                    <VideoFileUpload onFileSet={(file) => startUploading(file)}/>
                             }
                         </Dialog.Body>
                         <Dialog.CloseTrigger asChild>

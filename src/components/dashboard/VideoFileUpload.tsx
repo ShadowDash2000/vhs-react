@@ -1,7 +1,12 @@
 import {Box, FileUpload, Icon, useFileUpload} from "@chakra-ui/react";
 import {LuUpload} from "react-icons/lu";
+import type {FC} from "react";
 
-export const VideoFileUpload = ({onFileSet}) => {
+interface VideoFileUploadProps {
+    onFileSet: (file: File) => void
+}
+
+export const VideoFileUpload: FC<VideoFileUploadProps> = ({onFileSet}) => {
     const fileUpload = useFileUpload({
         maxFiles: 1,
         accept: ['video/mp4'],

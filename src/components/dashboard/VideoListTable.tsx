@@ -1,12 +1,11 @@
 import {Table, For, Flex} from "@chakra-ui/react";
-import {VideoCell} from "./VideoCell.jsx";
-import {VideoListTablePagination} from "./VideoListTablePagination.jsx";
+import {VideoCell} from "./VideoCell";
+import {VideoListTablePagination} from "./VideoListTablePagination";
 import {useVideos} from "../video/context/VideosContext.jsx";
-import {UploadModal} from "./UploadModal.jsx";
+import {UploadModal} from "./UploadModal";
 
 export const VideoListTable = () => {
-    const {data: videos, page, setPage} = useVideos();
-
+    const {data: videos, setPage} = useVideos();
     return (
         <Flex direction="column">
             <UploadModal/>
@@ -31,7 +30,7 @@ export const VideoListTable = () => {
                 count={videos.totalItems}
                 pageSize={videos.perPage}
                 page={videos.page}
-                onChange={(i) => setPage(page + i)}
+                onChange={(i) => setPage(i)}
             />
         </Flex>
     )

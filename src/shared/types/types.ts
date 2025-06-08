@@ -1,34 +1,37 @@
-import PocketBase, {type AuthRecord, RecordService} from "pocketbase";
+import PocketBase from "pocketbase";
+import type {AuthRecord, RecordModel, RecordService} from "pocketbase";
 
 export interface TypedPocketBase extends PocketBase{
     collection(idOrName: string): RecordService
-    collection(idOrName: 'users'): RecordService<User>
+    collection(idOrName: 'users'): RecordService<UserRecord>
 }
 
 export type IsoDateString = string
 export type RecordIdString = string
 
-export type User = {
+export type UserRecord = {
     name: string
     avatar?: string
     created: string
     updated: string
 } & AuthRecord
 
-export enum VideosStatusOptions {
-    "public" = "public",
-    "link" = "link",
-    "closed" = "closed",
+export const enum VideosStatusOptions {
+    PUBLIC = "public",
+    LINK = "link",
+    CLOSED = "closed",
 }
-export type VideosRecord = {
-    created?: IsoDateString
+
+export type VideoRecord = {
+    created: IsoDateString
     id: string
     name: string
-    preview?: string
+    description: string
+    preview: string
     status: VideosStatusOptions
-    thumbnails?: string[]
-    updated?: IsoDateString
+    thumbnails: string[]
+    updated: IsoDateString
     user: RecordIdString
-    video?: string
-    webvtt?: string
-}
+    video: string
+    webvtt: string
+} & RecordModel
