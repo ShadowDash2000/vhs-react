@@ -1,8 +1,8 @@
 import {type ListCollection, Portal, Select} from "@chakra-ui/react"
-import type {FC, ReactNode, Ref} from "react";
+import type {ReactNode, Ref} from "react";
 
-interface SelectBoxProps {
-    collection: ListCollection
+interface SelectBoxProps<T> {
+    collection: ListCollection<T>
     label: string
     children: ReactNode
     defaultValue?: string[]
@@ -12,7 +12,7 @@ interface SelectBoxProps {
     onChange?: (value: any) => void
 }
 
-export const SelectBox: FC<SelectBoxProps> = (
+export const SelectBox = <T,>(
     {
         collection,
         label,
@@ -22,7 +22,7 @@ export const SelectBox: FC<SelectBoxProps> = (
         name,
         value,
         onChange,
-    }
+    } : SelectBoxProps<T>
 ) => {
     return (
         <Select.Root
@@ -31,7 +31,7 @@ export const SelectBox: FC<SelectBoxProps> = (
             ref={ref}
             name={name}
             value={value}
-            onChange={onChange}
+            onValueChange={onChange}
         >
             <Select.HiddenSelect/>
             <Select.Label>{label}</Select.Label>
