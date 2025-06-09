@@ -13,7 +13,6 @@ export const AppContextProvider = ({children}: AppContextProviderProps) => {
     useEffect(() => {
         if (pb.authStore.isValid) {
             pb.collection('users').authRefresh();
-            console.log(pb.authStore.record);
 
             setUser(pb.authStore.record as UserRecord);
         } else {

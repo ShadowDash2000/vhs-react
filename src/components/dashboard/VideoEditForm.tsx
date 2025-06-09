@@ -1,9 +1,10 @@
-import {Box, Button, Field, FileUpload, Flex, Icon, Input, Textarea, useFileUpload} from "@chakra-ui/react";
+import {Box, Button, Field, FileUpload, Flex, Icon, Input, Select, Textarea, useFileUpload} from "@chakra-ui/react";
 import {useForm} from "react-hook-form";
 import {LuUpload} from "react-icons/lu";
 import {type FC, useState} from "react";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
-import type {VideoRecord} from "@shared/types/types";
+import {type VideoRecord, VideoStatusOptionsCollection} from "@shared/types/types";
+import {SelectBox} from "../ui/select/select";
 
 interface VideoEditFormProps {
     videoId: string
@@ -14,6 +15,7 @@ interface VideoEditFormProps {
 interface FormFieldsProps {
     name: string
     description: string
+    status: string
     preview: File | null
 }
 
@@ -42,6 +44,7 @@ export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess
             const formData = new FormData();
 
             formData.append('name', values.name);
+            formData.append('status', values.status);
             formData.append('description', values.description);
             if (preview) {
                 formData.append('preview', preview);
@@ -95,6 +98,24 @@ export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess
                     minH={300}
                     autoresize
                 />
+            </Field.Root>
+            <Field.Root required>
+                <Field.Label>
+                    Описание
+                </Field.Label>
+                <SelectBox
+                    collection={VideoStatusOptionsCollection}
+                    label='Статус'
+                    defaultValue={[video?.status ?? '']}
+                    {...register('status', {required: true})}
+                >
+                    {VideoStatusOptionsCollection.items.map((status) => (
+                        <Select.Item item={status} key={status.value}>
+                            {status.label}
+                            <Select.ItemIndicator/>
+                        </Select.Item>
+                    ))}
+                </SelectBox>
             </Field.Root>
             <FileUpload.RootProvider
                 maxW="xl"

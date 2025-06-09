@@ -1,8 +1,10 @@
 import PocketBase from "pocketbase";
 import type {AuthRecord, RecordModel, RecordService} from "pocketbase";
+import {createListCollection} from "@chakra-ui/react";
 
-export interface TypedPocketBase extends PocketBase{
+export interface TypedPocketBase extends PocketBase {
     collection(idOrName: string): RecordService
+
     collection(idOrName: 'users'): RecordService<UserRecord>
 }
 
@@ -21,6 +23,14 @@ export const enum VideosStatusOptions {
     LINK = "link",
     CLOSED = "closed",
 }
+
+export const VideoStatusOptionsCollection = createListCollection({
+    items: [
+        {label: 'Для всех', value: VideosStatusOptions.PUBLIC},
+        {label: 'Доступ по ссылке', value: VideosStatusOptions.LINK},
+        {label: 'Ограниченный доступ', value: VideosStatusOptions.CLOSED},
+    ],
+});
 
 export type VideoRecord = {
     created: IsoDateString
