@@ -1,13 +1,13 @@
 import {useContext, createContext, useMemo, useEffect, useState} from "react";
 import PocketBase from "pocketbase";
 import type {AppProviderType, AppContextProviderProps} from "./types";
-import type {User} from "@shared/types/types";
+import type {UserRecord} from "@shared/types/types";
 
 const AppContext = createContext<AppProviderType>({} as AppProviderType);
 
 export const AppContextProvider = ({children}: AppContextProviderProps) => {
     const pb = useMemo(() => new PocketBase(import.meta.env.VITE_PB_URL), []);
-    const [user, setUser] = useState({} as User);
+    const [user, setUser] = useState({} as UserRecord);
     const [isAuth, setIsAuth] = useState<boolean>(pb.authStore.isValid);
 
     useEffect(() => {
@@ -15,7 +15,7 @@ export const AppContextProvider = ({children}: AppContextProviderProps) => {
             pb.collection('users').authRefresh();
             console.log(pb.authStore.record);
 
-            setUser(pb.authStore.record as User);
+            setUser(pb.authStore.record as UserRecord);
         } else {
             pb.authStore.clear();
         }
