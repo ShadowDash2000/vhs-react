@@ -1,4 +1,4 @@
-import {VideoList} from "../video/VideoList.jsx";
+import {VideoList} from "../video/VideoList";
 import {VideosProvider} from "../video/context/VideosContext.js";
 
 const Main = () => {

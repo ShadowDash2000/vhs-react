@@ -1,0 +1,1 @@
+export const createEmptyFile = () => new File([], '');

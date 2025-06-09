@@ -1,8 +1,14 @@
 import {Table, Image} from "@chakra-ui/react";
-import {useAppContext} from "../../context/AppContextProvider.tsx";
+import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import {NavLink} from "react-router-dom";
+import type {FC} from "react";
+import type {VideoRecord} from "@shared/types/types"
 
-export const VideoCell = ({video}) => {
+interface VideoCellProps {
+    video: VideoRecord
+}
+
+export const VideoCell: FC<VideoCellProps> = ({video}) => {
     const {pb} = useAppContext();
     const link = `/dashboard/video/${video.id}`;
 

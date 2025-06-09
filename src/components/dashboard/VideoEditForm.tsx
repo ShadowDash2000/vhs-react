@@ -1,20 +1,33 @@
 import {Box, Button, Field, FileUpload, Flex, Icon, Input, Textarea, useFileUpload} from "@chakra-ui/react";
 import {useForm} from "react-hook-form";
 import {LuUpload} from "react-icons/lu";
-import {useState} from "react";
-import {useAppContext} from "../../context/AppContextProvider.tsx";
+import {type FC, useState} from "react";
+import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
+import type {VideoRecord} from "@shared/types/types";
 
-export const VideoEditForm = ({videoId, video, onSuccess}) => {
+interface VideoEditFormProps {
+    videoId: string
+    video?: VideoRecord
+    onSuccess?: () => void
+}
+
+interface FormFieldsProps {
+    name: string
+    description: string
+    preview: File | null
+}
+
+export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess}) => {
     const {pb} = useAppContext();
 
     const {
         register,
         handleSubmit,
-        formState,
-        setError
-    } = useForm();
+        formState
+    } = useForm<FormFieldsProps>();
 
-    const [preview, setPreview] = useState(null);
+    const [preview, setPreview] = useState<File | null>(null);
+    const [resError, setResError] = useState<string>('');
 
     const fileUpload = useFileUpload({
         maxFiles: 1,
@@ -24,7 +37,7 @@ export const VideoEditForm = ({videoId, video, onSuccess}) => {
         },
     });
 
-    const onSubmit = async (values) => {
+    const onSubmit = async (values: FormFieldsProps) => {
         try {
             const formData = new FormData();
 
@@ -42,17 +55,11 @@ export const VideoEditForm = ({videoId, video, onSuccess}) => {
                 },
             });
 
-            if (!res.ok) setError('response',{
-                type: '',
-                message: 'Ошибка при сохранении.'
-            });
-
+            if (!res.ok) setResError('Ошибка при сохранении.');
             if (onSuccess) onSuccess();
         } catch (error) {
-            setError('response',{
-                type: '',
-                message: 'Ошибка при сохранении.'
-            });
+            console.error(error);
+            setResError('Ошибка при сохранении.');
         }
     }
 
@@ -106,7 +113,7 @@ export const VideoEditForm = ({videoId, video, onSuccess}) => {
                 </FileUpload.Dropzone>
                 <FileUpload.List/>
             </FileUpload.RootProvider>
-            {formState.errors.response && <Box color="red.500">{formState.errors.response}</Box>}
+            {!!resError && <Box color="red.500">{resError}</Box>}
             <Button type="submit" colorPalette="blue" rounded="lg">Сохранить</Button>
         </Flex>
     )
