@@ -31,7 +31,7 @@ export const SelectBox = <T,>(
             ref={ref}
             name={name}
             value={value}
-            onValueChange={onChange}
+            onChange={onChange}
         >
             <Select.HiddenSelect/>
             <Select.Label>{label}</Select.Label>

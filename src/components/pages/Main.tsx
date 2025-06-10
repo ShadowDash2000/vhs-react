@@ -1,11 +1,11 @@
 import {VideoList} from "../video/VideoList";
-import {VideosProvider} from "../video/context/VideosContext.js";
+import {VideosInfiniteProvider} from "@context/VideosInfiniteContext";
 
 const Main = () => {
     return (
-        <VideosProvider pageSize={24}>
+        <VideosInfiniteProvider pageSize={24}>
             <VideoList/>
-        </VideosProvider>
+        </VideosInfiniteProvider>
     )
 }
 

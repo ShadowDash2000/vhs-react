@@ -1,4 +1,4 @@
-import {useAppContext} from "../context/AppContextProvider/AppContextProvider";
+import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import {Box, Button, ButtonGroup} from "@chakra-ui/react";
 import {NavLink} from "react-router-dom";
 

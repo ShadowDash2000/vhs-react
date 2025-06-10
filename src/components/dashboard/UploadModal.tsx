@@ -4,11 +4,12 @@ import {useVideoUpload} from "./videoUpload";
 import {VideoFileUpload} from "./VideoFileUpload";
 import {VideoEditForm} from "./VideoEditForm";
 
-interface UploadModalProps {}
+interface UploadModalProps {
+}
 
 export const UploadModal: FC<UploadModalProps> = () => {
     const [open, setOpen] = useState<boolean>(false);
-    const { uploading, progress, success, videoId, startUploading } = useVideoUpload();
+    const {uploading, progress, success, videoId, startUploading} = useVideoUpload();
 
     return (
         <Dialog.Root

@@ -1,9 +1,12 @@
 import {useParams} from "react-router-dom";
 import {VideoDetail} from "../video/VideoDetail";
-import {VideoProvider} from "../video/context/VideoContext";
+import {VideoProvider} from "@context/VideoContext";
 
 const Video = () => {
-    const {videoId} = useParams();    
+    const {videoId} = useParams();
+
+    if (!videoId) return null;
+
     return (
         <VideoProvider videoId={videoId}>
             <VideoDetail/>

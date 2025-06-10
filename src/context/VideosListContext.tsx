@@ -18,9 +18,9 @@ interface VideosProviderType {
     setPage: Dispatch<SetStateAction<number>>
 }
 
-const VideosContext = createContext({} as VideosProviderType);
+const VideosListContext = createContext({} as VideosProviderType);
 
-export const VideosProvider: FC<VideosProviderProps> = ({pageSize, children}) => {
+export const VideosListProvider: FC<VideosProviderProps> = ({pageSize, children}) => {
     const {pb} = useAppContext();
     const [page, setPage] = useState(1);
     const {isPending, isError, data, error} = useQuery({
@@ -42,10 +42,10 @@ export const VideosProvider: FC<VideosProviderProps> = ({pageSize, children}) =>
     }
 
     return (
-        <VideosContext.Provider value={{data, page, setPage}}>
+        <VideosListContext.Provider value={{data, page, setPage}}>
             {children}
-        </VideosContext.Provider>
+        </VideosListContext.Provider>
     )
 }
 
-export const useVideos = () => useContext(VideosContext);
+export const useVideos = () => useContext(VideosListContext);

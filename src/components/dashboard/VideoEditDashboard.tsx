@@ -1,5 +1,5 @@
 import {VideoEditForm} from "./VideoEditForm";
-import {useVideo} from "../video/context/VideoContext";
+import {useVideo} from "@context/VideoContext";
 import {Box} from "@chakra-ui/react";
 
 export const VideoEditDashboard = () => {

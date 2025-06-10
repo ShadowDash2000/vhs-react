@@ -1,7 +1,7 @@
 import {Table, For, Flex} from "@chakra-ui/react";
 import {VideoCell} from "./VideoCell";
 import {VideoListTablePagination} from "./VideoListTablePagination";
-import {useVideos} from "../video/context/VideosContext.jsx";
+import {useVideos} from "@context/VideosListContext";
 import {UploadModal} from "./UploadModal";
 
 export const VideoListTable = () => {

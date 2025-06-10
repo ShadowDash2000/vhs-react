@@ -1,4 +1,4 @@
-import {useAppContext} from "../context/AppContextProvider/AppContextProvider";
+import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import {Button, Input, Field, Flex} from "@chakra-ui/react";
 import {useForm} from "react-hook-form";
 import {PasswordInput} from "./ui/password-input/password-input";

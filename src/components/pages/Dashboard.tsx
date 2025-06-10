@@ -1,7 +1,7 @@
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import {useNavigate} from "react-router-dom";
 import {Suspense, useEffect} from "react";
-import {VideosProvider} from "../video/context/VideosContext.js";
+import {VideosListProvider} from "@context/VideosListContext";
 import {VideoListTable} from "../dashboard/VideoListTable";
 
 const Dashboard = () => {
@@ -14,9 +14,9 @@ const Dashboard = () => {
 
     return (
         <Suspense>
-            <VideosProvider pageSize={20}>
-                <VideoListTable flexDirection="row"/>
-            </VideosProvider>
+            <VideosListProvider pageSize={20}>
+                <VideoListTable/>
+            </VideosListProvider>
         </Suspense>
     )
 }
