@@ -3,7 +3,7 @@ import {useForm} from "react-hook-form";
 import {LuUpload} from "react-icons/lu";
 import {type FC, useState} from "react";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
-import {type VideoRecord, VideoStatusOptionsCollection} from "@shared/types/types";
+import {type VideoRecord, VideoStatusOptionsCollection, type VideoStatusOptionsCollectionType} from "@shared/types/types";
 import {SelectBox} from "../ui/select/select";
 
 interface VideoEditFormProps {
@@ -103,7 +103,7 @@ export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess
                 <Field.Label>
                     Описание
                 </Field.Label>
-                <SelectBox
+                <SelectBox<VideoStatusOptionsCollectionType>
                     collection={VideoStatusOptionsCollection}
                     label='Статус'
                     defaultValue={[video?.status ?? '']}
