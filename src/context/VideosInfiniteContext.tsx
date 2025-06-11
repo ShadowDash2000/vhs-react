@@ -1,5 +1,5 @@
 import {createContext, useContext} from "react";
-import type {FC, ReactNode} from "react"
+import type {ReactNode} from "react";
 import {keepPreviousData, useInfiniteQuery} from "@tanstack/react-query";
 import type {
     QueryFunctionContext,
@@ -10,11 +10,13 @@ import type {
 import {LuLoader} from "react-icons/lu";
 import {Text} from "@chakra-ui/react";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
-import type {VideoRecord} from "@shared/types/types";
+import {type VideoRecord} from "@shared/types/types";
 import type {ListResult} from "pocketbase";
+import {Sort, useSort} from "@shared/sort";
 
 interface VideosProviderProps {
     pageSize: number
+    initialSort?: Map<string, Sort>
     children: ReactNode
 }
 
@@ -23,15 +25,20 @@ interface VideosInfiniteProviderType {
     fetchNextPage: (options?: FetchNextPageOptions | undefined) => Promise<InfiniteQueryObserverResult<InfiniteData<ListResult<VideoRecord>, unknown>, Error>>,
     isFetching: boolean
     hasNextPage: boolean
+    sortSet: (key: string, value: Sort) => void
+    sortBuild: string
+    sortIs: (key: string, value: Sort) => boolean
+    sortToggle(key: string): void
 }
 
 const VideosInfiniteContext = createContext({} as VideosInfiniteProviderType);
 
-export const VideosInfiniteProvider: FC<VideosProviderProps> = ({pageSize, children}) => {
+export const VideosInfiniteProvider = ({pageSize, children, initialSort}: VideosProviderProps) => {
     const {pb} = useAppContext();
+    const {sortSet, sortIs, sortBuild, sortToggle} = useSort({initial: initialSort});
     const fetchVideos = async ({pageParam}: QueryFunctionContext<string[], number>) => {
         return await pb.collection('videos').getList<VideoRecord>(pageParam, pageSize, {
-            sort: '-created',
+            sort: sortBuild,
         });
     }
     const {
@@ -43,7 +50,7 @@ export const VideosInfiniteProvider: FC<VideosProviderProps> = ({pageSize, child
         data,
         error,
     } = useInfiniteQuery({
-        queryKey: ['videos_infinite'],
+        queryKey: ['videos_infinite', sortBuild],
         placeholderData: keepPreviousData,
         queryFn: fetchVideos,
         initialPageParam: 1,
@@ -67,6 +74,10 @@ export const VideosInfiniteProvider: FC<VideosProviderProps> = ({pageSize, child
             isFetching,
             hasNextPage,
             fetchNextPage,
+            sortSet,
+            sortBuild,
+            sortIs,
+            sortToggle,
         }}>
             {children}
         </VideosInfiniteContext.Provider>
