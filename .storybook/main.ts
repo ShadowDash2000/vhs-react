@@ -20,6 +20,11 @@ const config: StorybookConfig = {
     typescript: {
         check: true,
         reactDocgen: 'react-docgen-typescript'
-    }
+    },
+    refs: {
+        "@chakra-ui/react": {
+            disable: true,
+        },
+    },
 };
 export default config;

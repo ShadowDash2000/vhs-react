@@ -3,9 +3,11 @@ import {VideoCell} from "./VideoCell";
 import {VideoListTablePagination} from "./VideoListTablePagination";
 import {useVideos} from "@context/VideosListContext";
 import {UploadModal} from "./UploadModal";
+import {useNavigate} from "react-router-dom";
 
 export const VideoListTable = () => {
     const {data: videos, setPage} = useVideos();
+    const navigate = useNavigate();
     return (
         <Flex direction="column">
             <UploadModal/>
@@ -19,7 +21,11 @@ export const VideoListTable = () => {
                 <Table.Body>
                     <For each={videos.items}>
                         {(item) => (
-                            <Table.Row key={item.id}>
+                            <Table.Row
+                                key={item.id}
+                                cursor="pointer"
+                                onClick={() => navigate(`/dashboard/video/${item.id}`)}
+                            >
                                 <VideoCell video={item}/>
                             </Table.Row>
                         )}
