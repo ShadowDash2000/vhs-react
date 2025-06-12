@@ -1,6 +1,6 @@
 import {type FC, useState} from "react";
 import {Box, Button, CloseButton, Dialog, Portal} from "@chakra-ui/react";
-import {useVideoUpload} from "./videoUpload";
+import {useVideoUpload} from "./useVideoUpload";
 import {VideoFileUpload} from "./VideoFileUpload";
 import {VideoEditForm} from "./VideoEditForm";
 

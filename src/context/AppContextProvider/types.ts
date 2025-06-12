@@ -1,12 +1,12 @@
 import PocketBase from "pocketbase";
 import type {Dispatch, ReactNode, SetStateAction} from "react";
-import type {User} from "@shared/types/types";
+import type {UserRecord} from "@shared/types/types";
 
 export type AppProviderType = {
     pb: PocketBase
     isAuth: boolean
-    user: User | null
-    setUser: Dispatch<SetStateAction<User>>;
+    user: UserRecord | null
+    setUser: Dispatch<SetStateAction<UserRecord>>;
 }
 
 export type AppContextProviderProps = {

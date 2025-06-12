@@ -3,7 +3,7 @@ import {VideoCard} from "./VideoCard";
 import {useInfiniteVideos} from "@context/VideosInfiniteContext";
 import {useInView} from "react-intersection-observer";
 import {LuArrowDown, LuArrowUp} from "react-icons/lu";
-import {Sort} from "@shared/sort";
+import {Sort} from "@shared/hook/useSort";
 
 export const VideoList = () => {
     const {

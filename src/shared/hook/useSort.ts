@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 interface SortProps {
     sortSet: (key: string, value: Sort) => void
@@ -21,37 +21,35 @@ export const enum Sort {
     ASC = 'asc',
 }
 
+const build = (sort: Map<string, Sort>) => {
+    let i = 0;
+    let sortString = '';
+    for (const [key, sortType] of sort) {
+        let sortValue = sortType === Sort.DESC ? '-' : '';
+        let newValue = sortValue + key;
+        if (i + 1 !== sort.size) {
+            newValue += ',';
+        }
+        sortString += newValue;
+        i++;
+    }
+    return sortString;
+}
+
 export const useSort = ({initial = new Map()}: SortType): SortProps => {
     const [sort, setSort] = useState<Map<string, Sort>>(initial);
-    const [sortBuild, setSortBuild] = useState<string>('');
+    const [sortBuild, setSortBuild] = useState<string>(build(sort));
+    const countRef = useRef<number>(0);
 
     const set = (key: string, value: Sort) => {
-        setSort(() => {
-            const m = new Map(sort);
-            m.set(key, value);
-            return m;
-        });
+        setSort(new Map(sort).set(key, value));
     }
 
     const remove = (key: string) => {
         setSort(prev => {
             prev.delete(key);
-            return prev;
+            return new Map(prev);
         })
-    }
-
-    const build = () => {
-        setSortBuild('');
-        let i = 0;
-        for (const [key, sortType] of sort) {
-            let sortValue = sortType === Sort.DESC ? '-' : '';
-            let newValue = sortValue + key;
-            if (i + 1 !== sort.size) {
-                newValue += ',';
-            }
-            setSortBuild(prev => prev + newValue);
-            i++;
-        }
     }
 
     const is = (key: string, value: Sort) => {
@@ -68,7 +66,10 @@ export const useSort = ({initial = new Map()}: SortType): SortProps => {
     }
 
     useEffect(() => {
-        build();
+        if (countRef.current > 0) {
+            setSortBuild(build(sort));
+        }
+        ++countRef.current;
     }, [sort]);
 
     return {
