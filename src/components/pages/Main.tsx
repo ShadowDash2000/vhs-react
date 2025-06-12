@@ -1,6 +1,6 @@
 import {VideoList} from "../video/VideoList";
 import {VideosInfiniteProvider} from "@context/VideosInfiniteContext";
-import {Sort} from "@shared/sort";
+import {Sort} from "@shared/hook/useSort";
 
 const Main = () => {
     return (

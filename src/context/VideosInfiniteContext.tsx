@@ -12,7 +12,7 @@ import {Text} from "@chakra-ui/react";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import {type VideoRecord} from "@shared/types/types";
 import type {ListResult} from "pocketbase";
-import {Sort, useSort} from "@shared/sort";
+import {Sort, useSort} from "@shared/hook/useSort";
 
 interface VideosProviderProps {
     pageSize: number
@@ -26,7 +26,6 @@ interface VideosInfiniteProviderType {
     isFetching: boolean
     hasNextPage: boolean
     sortSet: (key: string, value: Sort) => void
-    sortBuild: string
     sortIs: (key: string, value: Sort) => boolean
     sortToggle(key: string): void
 }
@@ -75,7 +74,6 @@ export const VideosInfiniteProvider = ({pageSize, children, initialSort}: Videos
             hasNextPage,
             fetchNextPage,
             sortSet,
-            sortBuild,
             sortIs,
             sortToggle,
         }}>
