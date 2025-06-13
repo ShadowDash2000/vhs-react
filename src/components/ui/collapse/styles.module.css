@@ -1,0 +1,14 @@
+.details{
+    background-color: #181818;
+    padding: 1rem;
+}
+
+.detailsContent{
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    width: 100%;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
