@@ -55,6 +55,8 @@ export const useVideoUpload = () => {
     }, [readyState]);
 
     useEffect(() => {
+        if (!lastMessage) return;
+
         try {
             const res = JSON.parse(lastMessage?.data);
             switch (res.type) {
@@ -71,7 +73,7 @@ export const useVideoUpload = () => {
                 setVideoId(res.videoId);
             }
         } catch (e) {
-            console.error(e);
+            console.error(e, lastMessage);
         }
     }, [lastMessage]);
 

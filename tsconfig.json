@@ -15,8 +15,9 @@
      "paths": {
         "@/*": ["./src/*"],
         "@context/*": ["context/*"],
-       "@pages/*": ["pages/*"],
-       "@shared/*": ["shared/*"]
+        "@pages/*": ["pages/*"],
+        "@shared/*": ["shared/*"],
+        "@ui/*": ["components/ui/*"],
      },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
      "types": [
        "vite/client",

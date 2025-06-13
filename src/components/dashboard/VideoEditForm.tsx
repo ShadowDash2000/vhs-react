@@ -3,8 +3,13 @@ import {useForm} from "react-hook-form";
 import {LuUpload} from "react-icons/lu";
 import {type FC, useState} from "react";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
-import {type VideoRecord, VideoStatusOptionsCollection, type VideoStatusOptionsCollectionType} from "@shared/types/types";
-import {SelectBox} from "../ui/select/select";
+import {
+    type VideoRecord,
+    VideosStatusOptions,
+    VideoStatusOptionsCollection,
+    type VideoStatusOptionsCollectionType
+} from "@shared/types/types";
+import {SelectBox} from "@ui/select/select";
 
 interface VideoEditFormProps {
     videoId: string
@@ -85,7 +90,7 @@ export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess
                     defaultValue={video?.name}
                 />
             </Field.Root>
-            <Field.Root required>
+            <Field.Root>
                 <Field.Label>
                     Описание
                 </Field.Label>
@@ -101,12 +106,12 @@ export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess
             </Field.Root>
             <Field.Root required>
                 <Field.Label>
-                    Описание
+                    Статус
                 </Field.Label>
                 <SelectBox<VideoStatusOptionsCollectionType>
                     collection={VideoStatusOptionsCollection}
                     label='Статус'
-                    defaultValue={[video?.status ?? '']}
+                    defaultValue={[video?.status ?? VideosStatusOptions.CLOSED]}
                     {...register('status', {required: true})}
                 >
                     {VideoStatusOptionsCollection.items.map((status) => (

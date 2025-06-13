@@ -20,6 +20,11 @@ const themeConfig = defineConfig({
                 },
             },
         },
+        tokens: {
+            zIndex: {
+                dropdown: {value: 1600},
+            },
+        }
     },
 })
 const system = createSystem(defaultConfig, themeConfig);
