@@ -16,6 +16,8 @@ export const VideoListTable = () => {
                     <Table.Row>
                         <Table.ColumnHeader></Table.ColumnHeader>
                         <Table.ColumnHeader>Название</Table.ColumnHeader>
+                        <Table.ColumnHeader>Дата</Table.ColumnHeader>
+                        <Table.ColumnHeader>Статус</Table.ColumnHeader>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>

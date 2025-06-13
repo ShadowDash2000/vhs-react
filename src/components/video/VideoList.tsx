@@ -33,7 +33,7 @@ export const VideoList = () => {
                     {sortIs('created', Sort.DESC) ? <LuArrowDown/> : <LuArrowUp/>}
                 </Flex>
             </Flex>
-            <Grid templateColumns="repeat(4, 1fr)" gap={3}>
+            <Grid templateColumns="repeat(4, 1fr)" gap={3} alignItems="start">
                 <For each={videos.pages}>
                     {list => (
                         list.items.map((video) => (

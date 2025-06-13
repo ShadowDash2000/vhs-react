@@ -34,7 +34,6 @@ export const SelectBox = <T,>(
             onChange={onChange}
         >
             <Select.HiddenSelect/>
-            <Select.Label>{label}</Select.Label>
             <Select.Control>
                 <Select.Trigger>
                     <Select.ValueText placeholder={label}/>

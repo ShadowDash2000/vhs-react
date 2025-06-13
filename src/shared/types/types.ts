@@ -48,4 +48,15 @@ export type VideoRecord = {
     user: RecordIdString
     video: string
     webvtt: string
+    info?: VideoRecordInfo
 } & RecordModel
+
+export type VideoRecordInfo = {
+    duration?: number
+    chapters?: VideoRecordChapter[]
+}
+
+export type VideoRecordChapter = {
+    start: number
+    title: string
+}
