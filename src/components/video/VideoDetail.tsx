@@ -4,32 +4,43 @@ import '@vidstack/react/player/styles/default/theme.css';
 import '@vidstack/react/player/styles/default/layouts/video.css';
 import {useVideo} from "@context/VideoContext.tsx";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
-import {Box, Collapsible} from "@chakra-ui/react";
-import {useEffect, useRef} from "react";
+import {Box} from "@chakra-ui/react";
+import {useEffect, useMemo, useRef} from "react";
+import {Collapse} from "../ui/collapse/collapse"
 
 export const VideoDetail = () => {
     const {pb} = useAppContext();
     const {data: video} = useVideo();
-
+    console.log(video)
     const player = useRef<MediaPlayerInstance | null>(null);
+    const { duration, chapters } = video.info;
 
-    const track = new TextTrack({
-        kind: 'chapters',
-        type: 'vtt',
-        default: true,
-    });
+    const track = useMemo(() => {
+        if (!video?.info?.chapters?.length) return null;
 
-    const duration = video.info.duration;
-    const chaptersCount = video.info.chapters?.length || 0;
-    for (let i = 0; i < chaptersCount; i++) {
-        const chapter = video.info.chapters[i];
-        const endTime = i + 1 > chaptersCount - 1 ? duration : video.info.chapters[i + 1].start;
-        track.addCue(new VTTCue(chapter.start, endTime, chapter.title));
-    }
+        const newTrack = new TextTrack({
+            kind: 'chapters',
+            type: 'vtt',
+            default: true,
+        });
+        // браза, он о типе не знает :(
+        chapters.forEach((chapter, i) => {
+            const endTime = i + 1 < chapters.length ? chapters[i + 1].start : duration;
+            newTrack.addCue(new VTTCue(chapter.start, endTime, chapter.title));
+        });
+
+        return newTrack;
+    }, [chapters, duration])
+
 
     useEffect(() => {
+        if (!track) return;
+
         player.current?.textTracks.add(track);
-    }, []);
+        return () => {
+            player.current?.textTracks.remove(track);
+        }
+    }, [track]);
 
     return (
         <Box maxW="100%" md={{maxW: "70%", maxH: "100%"}}>
@@ -52,14 +63,21 @@ export const VideoDetail = () => {
                     }}
                 />
             </MediaPlayer>
-            <Collapsible.Root>
-                <Collapsible.Trigger paddingY="3">Toggle Collapsible</Collapsible.Trigger>
-                <Collapsible.Content>
-                    <Box padding="4" borderWidth="1px">
-                        {video.description}
-                    </Box>
-                </Collapsible.Content>
-            </Collapsible.Root>
+
+            <Collapse>
+                sadpokdsaodksaodsaodksaodkosakdsakodkasdosadkasodkaosdksaokdoaskdosakdosakdosakdosakdosakdsa
+                asodkaosdksaokdoaskdosakdosakdosa
+
+
+                kdosakdosakdsaasodkaosdksaokdoaskdosakdosakdosakdosakdosakdsa
+
+                asodkaosdksaokdoaskdosakdosakdosakdosakdosakdsaasodkaosdksaokdoaskdosakdosakdosakdosakdosakdsa
+                asodkaosdksaokdoaskdosakdosakdosakdosakdosakdsa
+                asodkaosdksaokdoaskdosakdosakdosakdosakdosakdsaasodkaosdksaokdoaskdosakdosakdosakdosakdosakdsa
+                asodkaosdksaokdoaskdosakdosakdosakdosakdosakdsa
+                asodkaosdksaokdoaskdosakdosakdosakdosakdosakdsaasodkaosdksaokdoaskdosakdosakdosakdosakdosakdsaфффффффф
+                asodkaosdksaokdoaskdosakdosakdosakdosakdosakdsa
+            </Collapse>
         </Box>
     )
 }
