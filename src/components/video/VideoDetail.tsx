@@ -7,7 +7,7 @@ import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import {Box, Heading} from "@chakra-ui/react";
 import {useEffect, useMemo, useRef} from "react";
 import {Collapse} from "@ui/collapse/collapse"
-import {PrettyDescription} from "@shared/helpers/PrettyDescription";
+import {PrettyDescription} from "./PrettyDescription";
 import {MediaContextProvider} from "@context/MediaContextProvider";
 
 export const VideoDetail = () => {

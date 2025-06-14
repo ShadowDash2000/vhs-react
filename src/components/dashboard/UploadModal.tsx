@@ -1,14 +1,15 @@
-import {type FC, useState} from "react";
-import {Box, Button, CloseButton, Dialog, Portal} from "@chakra-ui/react";
+import {type FC, type ReactNode, useState} from "react";
+import {Box, CloseButton, Dialog, Portal} from "@chakra-ui/react";
 import {useVideoUpload} from "./useVideoUpload";
 import {VideoFileUpload} from "./VideoFileUpload";
 import {VideoEditForm} from "./VideoEditForm";
 import {DialogBox} from "@ui/dialog/dialog";
 
 interface UploadModalProps {
+    children?: ReactNode;
 }
 
-export const UploadModal: FC<UploadModalProps> = () => {
+export const UploadModal: FC<UploadModalProps> = ({children}) => {
     const [open, setOpen] = useState<boolean>(false);
     const {
         uploading,
@@ -33,7 +34,7 @@ export const UploadModal: FC<UploadModalProps> = () => {
                     }
                 }}>
                 <Dialog.Trigger asChild>
-                    <Button colorPalette={'blue'} rounded={'lg'}>Upload</Button>
+                    {children}
                 </Dialog.Trigger>
                 <Portal>
                     <Dialog.Backdrop></Dialog.Backdrop>

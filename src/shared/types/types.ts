@@ -60,3 +60,12 @@ export type VideoRecordChapter = {
     start: number
     title: string
 }
+
+export type PlaylistRecord = {
+    created: IsoDateString
+    updated: IsoDateString
+    id: string
+    name: string
+    user: RecordIdString
+    videos: string[]
+} & RecordModel
