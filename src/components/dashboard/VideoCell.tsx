@@ -19,6 +19,7 @@ export const VideoCell: FC<VideoCellProps> = ({video}) => {
                     width="100%"
                     height="12rem"
                     src={pb.files.getURL(video, video.preview, {thumb: '1280x0'})}
+                    loading="lazy"
                 />
             </Table.Cell>
             <Table.Cell>

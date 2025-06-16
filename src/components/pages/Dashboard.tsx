@@ -14,7 +14,7 @@ const Dashboard = () => {
 
     return (
         <Suspense>
-            <VideosListProvider pageSize={20}>
+            <VideosListProvider pageSize={20} options={{sort: "-created"}}>
                 <VideoListTable/>
             </VideosListProvider>
         </Suspense>

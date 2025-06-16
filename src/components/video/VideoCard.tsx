@@ -23,6 +23,7 @@ export const VideoCard: FC<VideoCardProps> = ({video}) => {
                     <Image
                         src={pb.files.getURL(video, video.preview, {thumb: '1280x0'})}
                         height="15rem"
+                        loading="lazy"
                     />
                     <Card.Body gap="2">
                         <Card.Title

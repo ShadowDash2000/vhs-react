@@ -52,7 +52,7 @@ export const VideoDetail = () => {
                 ref={player}
             >
                 <MediaProvider>
-                    <Poster src={pb.files.getURL(video, video.preview)}/>
+                    <Poster src={pb.files.getURL(video, video.preview, {thumb: '1280x0'})}/>
                 </MediaProvider>
                 <DefaultVideoLayout
                     thumbnails={pb.files.getURL(video, video.webvtt)}

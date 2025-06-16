@@ -6,6 +6,8 @@ import {UploadModal} from "./UploadModal";
 import {useNavigate} from "react-router-dom";
 import {MenuBox} from "@ui/menu/menu";
 import {PlaylistModal} from "./PlaylistModal";
+import {RiPlayListAddLine} from "react-icons/ri";
+import {LuCloudUpload} from "react-icons/lu";
 
 export const VideoListTable = () => {
     const {data: videos, setPage} = useVideos();
@@ -13,15 +15,22 @@ export const VideoListTable = () => {
     return (
         <Flex direction="column">
             <Flex justify="flex-end">
-                <MenuBox label="Создать" rootProps={{unmountOnExit: false}}>
+                <MenuBox
+                    label="Создать"
+                    rootProps={{unmountOnExit: false}}
+                >
                     <Menu.Item value="upload-video">
                         <UploadModal>
-                            <span>Загрузить видео</span>
+                            <Flex alignItems="center" gap={2}>
+                                <LuCloudUpload/> Загрузить видео
+                            </Flex>
                         </UploadModal>
                     </Menu.Item>
                     <Menu.Item value="create-playlist">
                         <PlaylistModal title={"Создать плейлист"}>
-                            <span>Создать плейлист</span>
+                            <Flex alignItems="center" gap={2}>
+                                <RiPlayListAddLine/> Создать плейлист
+                            </Flex>
                         </PlaylistModal>
                     </Menu.Item>
                 </MenuBox>
