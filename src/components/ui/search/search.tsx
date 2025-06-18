@@ -1,5 +1,5 @@
-import {SelectBox} from "@ui/select/select"
 import {Field, For, Input, type ListCollection, Select, type SelectRootProps} from "@chakra-ui/react";
+import {SelectBoxOpen} from "@ui/select-open/select-open";
 
 interface SearchProps<T> {
     items: ListCollection<SearchCollectionType>
@@ -13,7 +13,7 @@ export type SearchCollectionType = {
     value: any
 }
 
-export const Search = <T,>(
+export const Search = <T, >(
     {
         items,
         label,
@@ -24,13 +24,13 @@ export const Search = <T,>(
     return (
         <>
             <Input
-                placeholder="Название"
+                placeholder={label}
                 onChange={(e) => {
                     onChange?.(e.target.value);
                 }}
             />
-            <Field.Root required>
-                <SelectBox
+            <Field.Root>
+                <SelectBoxOpen
                     label={label}
                     rootProps={rootProps}
                 >
@@ -42,7 +42,7 @@ export const Search = <T,>(
                             </Select.Item>
                         )}
                     </For>
-                </SelectBox>
+                </SelectBoxOpen>
             </Field.Root>
         </>
     )

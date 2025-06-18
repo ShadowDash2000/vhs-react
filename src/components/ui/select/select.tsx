@@ -7,12 +7,12 @@ interface SelectBoxProps<T> {
     children: ReactNode
 }
 
-export const SelectBox = <T,>(
+export const SelectBox = <T, >(
     {
         label,
         rootProps,
         children,
-    } : SelectBoxProps<T>
+    }: SelectBoxProps<T>
 ) => {
     return (
         <Select.Root {...rootProps}>

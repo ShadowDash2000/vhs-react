@@ -1,11 +1,11 @@
-import {Box, Button, createListCollection, Field, Flex, Input} from "@chakra-ui/react";
+import {Box, Button, Field, Flex, Input} from "@chakra-ui/react";
 import {useForm} from "react-hook-form";
 import {type FC, useEffect, useRef, useState} from "react";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
-import type {PlaylistRecord, VideoRecord} from "@shared/types/types";
-import {Search, type SearchCollectionType} from "@ui/search/search";
+import type {PlaylistRecord} from "@shared/types/types";
+import {Search} from "@ui/search/search";
 import {useVideos} from "@context/VideosListContext";
-import type {ListResult} from "pocketbase";
+import {createCollection} from "@shared/helpers/createCollection";
 
 interface PlaylistEditFormProps {
     playlist?: PlaylistRecord
@@ -17,17 +17,6 @@ interface PlaylistFormFieldsProps {
     videos: string[]
 }
 
-const createVideosCollection = (videos: ListResult<VideoRecord>) => {
-    let items: Array<SearchCollectionType> = [];
-    for (const video of videos.items) {
-        items.push({
-            label: video.name,
-            value: video.id,
-        });
-    }
-    return createListCollection<SearchCollectionType>({items});
-}
-
 export const PlaylistEditForm: FC<PlaylistEditFormProps> = ({playlist, onSuccess}) => {
     const {pb} = useAppContext();
     const {
@@ -37,11 +26,11 @@ export const PlaylistEditForm: FC<PlaylistEditFormProps> = ({playlist, onSuccess
     } = useForm<PlaylistFormFieldsProps>();
     const {data: videos, setOptions} = useVideos();
     const countRef = useRef<number>(0);
-    const [videosCollection, setVideosCollection] = useState(createVideosCollection(videos));
+    const [videosCollection, setVideosCollection] = useState(createCollection(videos));
 
     useEffect(() => {
         if (countRef.current > 0) {
-            setVideosCollection(createVideosCollection(videos));
+            setVideosCollection(createCollection(videos));
         }
         ++countRef.current;
     }, [videos]);
@@ -92,12 +81,10 @@ export const PlaylistEditForm: FC<PlaylistEditFormProps> = ({playlist, onSuccess
                 />
             </Field.Root>
             <Field.Root>
-                <Field.Label>
-                    Видео <Field.RequiredIndicator/>
-                </Field.Label>
+                <Field.Label>Видео</Field.Label>
                 <Search
                     items={videosCollection}
-                    label="Видео"
+                    label="Поиск видео"
                     rootProps={{
                         collection: videosCollection,
                         multiple: true,
