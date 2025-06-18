@@ -1,5 +1,5 @@
 import {type FC, type ReactNode, useState} from "react";
-import {Box, CloseButton, Dialog, Portal} from "@chakra-ui/react";
+import {Box, CloseButton, Dialog, Portal, Text} from "@chakra-ui/react";
 import {useVideoUpload} from "./useVideoUpload";
 import {VideoFileUpload} from "./VideoFileUpload";
 import {VideoEditForm} from "./VideoEditForm";
@@ -53,13 +53,13 @@ export const UploadModal: FC<UploadModalProps> = ({children}) => {
                                                     setOpen(false);
                                                 }}
                                             />
-                                            <p>
+                                            <Text>
                                                 {
                                                     success
                                                         ? 'Загрузка завершена'
                                                         : `${progress}%`
                                                 }
-                                            </p>
+                                            </Text>
                                         </Box> :
                                         <VideoFileUpload onFileSet={(file) => startUploading(file)}/>
                                 }

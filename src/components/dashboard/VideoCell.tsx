@@ -25,10 +25,10 @@ export const VideoCell: FC<VideoCellProps> = ({video}) => {
             <Table.Cell>
                 {video.name}
             </Table.Cell>
-            <Table.Cell>
+            <Table.Cell textAlign="center">
                 {date.toLocaleDateString()}
             </Table.Cell>
-            <Table.Cell>
+            <Table.Cell textAlign="center">
                 {status?.label}
             </Table.Cell>
         </>

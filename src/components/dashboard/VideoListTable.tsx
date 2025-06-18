@@ -8,7 +8,7 @@ import {MenuBox} from "@ui/menu/menu";
 import {PlaylistModal} from "./PlaylistModal";
 import {RiPlayListAddLine} from "react-icons/ri";
 import {LuCloudUpload} from "react-icons/lu";
-import { PlaylistsProvider } from "@context/PlaylistsContext";
+import {PlaylistsProvider} from "@context/PlaylistsContext";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 
 export const VideoListTable = () => {
@@ -23,27 +23,27 @@ export const VideoListTable = () => {
                     label="Создать"
                     rootProps={{unmountOnExit: false}}
                 >
-                    <Menu.Item value="upload-video">
-                        <PlaylistsProvider
-                            pageSize={10}
-                            options={{
-                                filter: `user = "${user?.id}"`,
-                            }}
-                        >
-                            <UploadModal>
+                    <PlaylistsProvider
+                        pageSize={10}
+                        options={{
+                            filter: `user = "${user?.id}"`,
+                        }}
+                    >
+                        <UploadModal>
+                            <Menu.Item value="upload-video">
                                 <Flex alignItems="center" gap={2}>
                                     <LuCloudUpload/> Загрузить видео
                                 </Flex>
-                            </UploadModal>
-                        </PlaylistsProvider>
-                    </Menu.Item>
-                    <Menu.Item value="create-playlist">
-                        <PlaylistModal title={"Создать плейлист"}>
+                            </Menu.Item>
+                        </UploadModal>
+                    </PlaylistsProvider>
+                    <PlaylistModal title={"Создать плейлист"}>
+                        <Menu.Item value="create-playlist">
                             <Flex alignItems="center" gap={2}>
                                 <RiPlayListAddLine/> Создать плейлист
                             </Flex>
-                        </PlaylistModal>
-                    </Menu.Item>
+                        </Menu.Item>
+                    </PlaylistModal>
                 </MenuBox>
             </Flex>
             <Table.Root size="sm" striped showColumnBorder>
@@ -51,8 +51,8 @@ export const VideoListTable = () => {
                     <Table.Row>
                         <Table.ColumnHeader></Table.ColumnHeader>
                         <Table.ColumnHeader>Название</Table.ColumnHeader>
-                        <Table.ColumnHeader>Дата</Table.ColumnHeader>
-                        <Table.ColumnHeader>Статус</Table.ColumnHeader>
+                        <Table.ColumnHeader textAlign="center">Дата</Table.ColumnHeader>
+                        <Table.ColumnHeader textAlign="center">Статус</Table.ColumnHeader>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
