@@ -14,7 +14,7 @@ export const useVideoUpload = () => {
     const [videoId, setVideoId] = useState<string>("");
     const [file, setFile] = useState<File>(createEmptyFile());
 
-    const progress = !!file ? Math.round((filePos / file.size) * 100) : 0;
+    const progress = file.size > 0 ? Math.round((filePos / file.size) * 100) : 0;
     const fileReader = new FileReader();
 
     const startUploading = (file: File) => {
