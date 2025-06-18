@@ -1,21 +1,15 @@
-import {Portal, Select, type SelectRootProps} from "@chakra-ui/react"
+import {type ListCollection, Portal, Select, type SelectRootProps} from "@chakra-ui/react"
 import type {ReactNode} from "react";
 
-interface SelectBoxProps<T> {
+interface SelectBoxProps<T> extends SelectRootProps {
     label: string
-    rootProps: Omit<SelectRootProps<T>, 'children'>
     children: ReactNode
+    collection: ListCollection<T>
 }
 
-export const SelectBox = <T, >(
-    {
-        label,
-        rootProps,
-        children,
-    }: SelectBoxProps<T>
-) => {
+export const SelectBox = <T, >({label, children, ...props}: SelectBoxProps<T>) => {
     return (
-        <Select.Root {...rootProps}>
+        <Select.Root {...props}>
             <Select.HiddenSelect/>
             <Select.Control>
                 <Select.Trigger>

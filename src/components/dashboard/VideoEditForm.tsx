@@ -128,12 +128,10 @@ export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess
                     Статус
                 </Field.Label>
                 <SelectBox<VideoStatusOptionsCollectionType>
-                    rootProps={{
-                        collection: VideoStatusOptionsCollection,
-                        defaultValue: [video?.status ?? VideosStatusOptions.CLOSED],
-                        ...register('status', {required: true}),
-                    }}
+                    collection={VideoStatusOptionsCollection}
+                    defaultValue={[video?.status ?? VideosStatusOptions.CLOSED]}
                     label='Статус'
+                    {...register('status', {required: true})}
                 >
                     {VideoStatusOptionsCollection.items.map((status) => (
                         <Select.Item item={status} key={status.value}>
