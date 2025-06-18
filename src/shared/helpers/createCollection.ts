@@ -7,12 +7,12 @@ type CollectionType = {
     id: string
 }
 
-export const createCollection = <T extends  CollectionType>(videos: ListResult<T>) => {
-    let items: Array<SearchCollectionType> = [];
-    for (const video of videos.items) {
+export const createCollection = <T extends CollectionType>(listResult: ListResult<T>) => {
+    const items: Array<SearchCollectionType> = [];
+    for (const item of listResult.items) {
         items.push({
-            label: video.name,
-            value: video.id,
+            label: item.name,
+            value: item.id,
         });
     }
     return createListCollection<SearchCollectionType>({items});

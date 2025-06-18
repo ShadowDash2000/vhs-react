@@ -8,10 +8,14 @@ import {MenuBox} from "@ui/menu/menu";
 import {PlaylistModal} from "./PlaylistModal";
 import {RiPlayListAddLine} from "react-icons/ri";
 import {LuCloudUpload} from "react-icons/lu";
+import { PlaylistsProvider } from "@context/PlaylistsContext";
+import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 
 export const VideoListTable = () => {
+    const {user} = useAppContext();
     const {data: videos, setPage} = useVideos();
     const navigate = useNavigate();
+
     return (
         <Flex direction="column">
             <Flex justify="flex-end">
@@ -20,11 +24,18 @@ export const VideoListTable = () => {
                     rootProps={{unmountOnExit: false}}
                 >
                     <Menu.Item value="upload-video">
-                        <UploadModal>
-                            <Flex alignItems="center" gap={2}>
-                                <LuCloudUpload/> Загрузить видео
-                            </Flex>
-                        </UploadModal>
+                        <PlaylistsProvider
+                            pageSize={10}
+                            options={{
+                                filter: `user = "${user?.id}"`,
+                            }}
+                        >
+                            <UploadModal>
+                                <Flex alignItems="center" gap={2}>
+                                    <LuCloudUpload/> Загрузить видео
+                                </Flex>
+                            </UploadModal>
+                        </PlaylistsProvider>
                     </Menu.Item>
                     <Menu.Item value="create-playlist">
                         <PlaylistModal title={"Создать плейлист"}>
