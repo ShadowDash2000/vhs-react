@@ -1,11 +1,10 @@
-import {Field, For, Input, type ListCollection, Select, type SelectRootProps} from "@chakra-ui/react";
-import {SelectBoxOpen} from "@ui/select-open/select-open";
+import {Field, For, Input, type ListCollection, Select} from "@chakra-ui/react";
+import {SelectBoxOpen, type SelectBoxOpenProps} from "@ui/select-open/select-open";
 
-interface SearchProps<T> {
-    items: ListCollection<SearchCollectionType>
+interface SearchProps extends Omit<SelectBoxOpenProps<SearchCollectionType>, 'children'> {
     label: string
-    rootProps: Omit<SelectRootProps<T>, 'children'>
-    onChange?: (query: string) => void
+    items: ListCollection<SearchCollectionType>
+    onInputChange?: (query: string) => void
 }
 
 export type SearchCollectionType = {
@@ -13,27 +12,24 @@ export type SearchCollectionType = {
     value: any
 }
 
-export const Search = <T, >(
+export const Search = (
     {
-        items,
         label,
-        rootProps,
-        onChange,
-    }: SearchProps<T>
+        items,
+        onInputChange,
+        ...props
+    }: SearchProps
 ) => {
     return (
         <>
             <Input
                 placeholder={label}
                 onChange={(e) => {
-                    onChange?.(e.target.value);
+                    onInputChange?.(e.target.value);
                 }}
             />
             <Field.Root>
-                <SelectBoxOpen
-                    label={label}
-                    rootProps={rootProps}
-                >
+                <SelectBoxOpen {...props}>
                     <For each={items.items}>
                         {(item) => (
                             <Select.Item item={item} key={item.value}>

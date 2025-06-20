@@ -71,7 +71,7 @@ export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess
             }
 
             for (const playlistId of values.playlists) {
-                formData.append('playlists[]', playlistId);
+                formData.append('playlists', playlistId);
             }
 
             const res = await fetch(`${import.meta.env.VITE_PB_URL}/api/video/${videoId}/update`, {
@@ -146,17 +146,16 @@ export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess
                 <Search
                     items={playlistsCollection}
                     label="Поиск плейлистов"
-                    rootProps={{
-                        collection: playlistsCollection,
-                        multiple: true,
-                        ...register('playlists', {required: false})
-                    }}
-                    onChange={(query) => {
+                    collection={playlistsCollection}
+                    multiple={true}
+                    defaultValue={video?.playlists}
+                    onInputChange={(query) => {
                         setOptions(prev => ({
                             ...prev,
                             filter: `name ~ "${query}"`
                         }));
                     }}
+                    {...register('playlists', {required: false})}
                 />
             </Field.Root>
             <FileUpload.RootProvider

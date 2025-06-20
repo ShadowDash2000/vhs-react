@@ -1,21 +1,19 @@
 import {Select, type SelectRootProps} from "@chakra-ui/react"
 import type {ReactNode} from "react";
 
-interface SelectBoxOpenProps<T> {
-    label: string
-    rootProps: Omit<SelectRootProps<T>, 'children'>
+export interface SelectBoxOpenProps<T> extends SelectRootProps<T> {
     children: ReactNode
 }
 
 export const SelectBoxOpen = <T, >(
     {
-        rootProps,
         children,
+        ...props
     }: SelectBoxOpenProps<T>
 ) => {
     return (
         <Select.Root
-            {...rootProps}
+            {...props}
             defaultOpen={true}
             open={true}
         >
