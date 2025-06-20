@@ -29,6 +29,7 @@ export const VideoCard: FC<VideoCardProps> = ({video}) => {
                         <Card.Title
                             height="4rem"
                             overflow="hidden"
+                            wordBreak="break-all"
                             title={video.name}
                         >
                             {truncate(video.name, 70)}
