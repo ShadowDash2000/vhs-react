@@ -1,5 +1,6 @@
-import {Field, For, Input, type ListCollection, Select} from "@chakra-ui/react";
+import {Field, For, Input, InputGroup, type ListCollection, Select} from "@chakra-ui/react";
 import {SelectBoxOpen, type SelectBoxOpenProps} from "@ui/select-open/select-open";
+import {LuSearch} from "react-icons/lu";
 
 interface SearchProps extends Omit<SelectBoxOpenProps<SearchCollectionType>, 'children'> {
     label: string
@@ -22,12 +23,14 @@ export const Search = (
 ) => {
     return (
         <>
-            <Input
-                placeholder={label}
-                onChange={(e) => {
-                    onInputChange?.(e.target.value);
-                }}
-            />
+            <InputGroup endElement={<LuSearch/>}>
+                <Input
+                    placeholder={label}
+                    onChange={(e) => {
+                        onInputChange?.(e.target.value);
+                    }}
+                />
+            </InputGroup>
             <Field.Root>
                 <SelectBoxOpen {...props}>
                     <For each={items.items}>

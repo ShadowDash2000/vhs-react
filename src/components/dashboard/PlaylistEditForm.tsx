@@ -1,11 +1,12 @@
 import {Box, Button, Field, Flex, Input} from "@chakra-ui/react";
 import {useForm} from "react-hook-form";
-import {type FC, useEffect, useRef, useState} from "react";
+import {type FC, useState} from "react";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import type {PlaylistRecord} from "@shared/types/types";
 import {Search} from "@ui/search/search";
 import {useVideos} from "@context/VideosListContext";
 import {createCollection} from "@shared/helpers/createCollection";
+import {useSkip} from "@shared/hook/useSkip";
 
 interface PlaylistEditFormProps {
     playlist?: PlaylistRecord
@@ -25,15 +26,11 @@ export const PlaylistEditForm: FC<PlaylistEditFormProps> = ({playlist, onSuccess
         formState
     } = useForm<PlaylistFormFieldsProps>();
     const {data: videos, setOptions} = useVideos();
-    const countRef = useRef<number>(0);
     const [videosCollection, setVideosCollection] = useState(createCollection(videos));
 
-    useEffect(() => {
-        if (countRef.current > 0) {
-            setVideosCollection(createCollection(videos));
-        }
-        ++countRef.current;
-    }, [videos]);
+    useSkip(() => {
+        setVideosCollection(createCollection(videos));
+    }, [videos])
 
     const [resError, setResError] = useState<string>('');
 

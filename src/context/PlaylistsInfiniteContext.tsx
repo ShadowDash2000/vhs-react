@@ -10,20 +10,19 @@ import type {
 import {LuLoader} from "react-icons/lu";
 import {Text} from "@chakra-ui/react";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
-import {type VideoRecord} from "@shared/types/types";
-import type {ListOptions, ListResult} from "pocketbase";
+import {type PlaylistRecord} from "@shared/types/types";
+import type {ListResult} from "pocketbase";
 import {Sort, useSort} from "@shared/hook/useSort";
 
-interface VideosProviderProps {
+interface PlaylistsProviderProps {
     pageSize: number
     initialSort?: Map<string, Sort>
-    options?: Omit<ListOptions, 'sort'>
     children: ReactNode
 }
 
-interface VideosInfiniteProviderType {
-    data: InfiniteData<ListResult<VideoRecord>>
-    fetchNextPage: (options?: FetchNextPageOptions | undefined) => Promise<InfiniteQueryObserverResult<InfiniteData<ListResult<VideoRecord>, unknown>, Error>>,
+interface PlaylistsInfiniteProviderType {
+    data: InfiniteData<ListResult<PlaylistRecord>>
+    fetchNextPage: (options?: FetchNextPageOptions | undefined) => Promise<InfiniteQueryObserverResult<InfiniteData<ListResult<PlaylistRecord>, unknown>, Error>>,
     isFetching: boolean
     hasNextPage: boolean
     sortSet: (key: string, value: Sort) => void
@@ -31,15 +30,14 @@ interface VideosInfiniteProviderType {
     sortToggle(key: string): void
 }
 
-const VideosInfiniteContext = createContext({} as VideosInfiniteProviderType);
+const PlaylistsInfiniteContext = createContext({} as PlaylistsInfiniteProviderType);
 
-export const VideosInfiniteProvider = ({pageSize, children, initialSort, options}: VideosProviderProps) => {
+export const PlaylistsInfiniteProvider = ({pageSize, children, initialSort}: PlaylistsProviderProps) => {
     const {pb} = useAppContext();
     const {sortSet, sortIs, sortBuild, sortToggle} = useSort({initial: initialSort});
-    const fetchVideos = async ({pageParam}: QueryFunctionContext<string[], number>) => {
-        return await pb.collection('videos').getList<VideoRecord>(pageParam, pageSize, {
+    const fetchPlaylists = async ({pageParam}: QueryFunctionContext<string[], number>) => {
+        return await pb.collection('playlists').getList<PlaylistRecord>(pageParam, pageSize, {
             sort: sortBuild,
-            ...options
         });
     }
     const {
@@ -51,9 +49,9 @@ export const VideosInfiniteProvider = ({pageSize, children, initialSort, options
         data,
         error,
     } = useInfiniteQuery({
-        queryKey: ['videos_infinite', sortBuild],
+        queryKey: ['playlists_infinite', sortBuild],
         placeholderData: keepPreviousData,
-        queryFn: fetchVideos,
+        queryFn: fetchPlaylists,
         initialPageParam: 1,
         getNextPageParam: (lastPage, _allPages, lastPageParam) => {
             if (lastPage.page === lastPage.totalPages) return null;
@@ -70,7 +68,7 @@ export const VideosInfiniteProvider = ({pageSize, children, initialSort, options
     }
 
     return (
-        <VideosInfiniteContext.Provider value={{
+        <PlaylistsInfiniteContext.Provider value={{
             data,
             isFetching,
             hasNextPage,
@@ -80,8 +78,8 @@ export const VideosInfiniteProvider = ({pageSize, children, initialSort, options
             sortToggle,
         }}>
             {children}
-        </VideosInfiniteContext.Provider>
+        </PlaylistsInfiniteContext.Provider>
     )
 }
 
-export const useInfiniteVideos = () => useContext(VideosInfiniteContext);
+export const useInfinitePlaylists = () => useContext(PlaylistsInfiniteContext);
