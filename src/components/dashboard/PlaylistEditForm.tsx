@@ -85,12 +85,10 @@ export const PlaylistEditForm: FC<PlaylistEditFormProps> = ({playlist, onSuccess
                 <Search
                     items={videosCollection}
                     label="Поиск видео"
-                    rootProps={{
-                        collection: videosCollection,
-                        multiple: true,
-                        ...register('videos', {required: false})
-                    }}
-                    onChange={(query) => {
+                    collection={videosCollection}
+                    multiple
+                    {...register('videos', {required: false})}
+                    onInputChange={(query) => {
                         setOptions(prev => ({
                             ...prev,
                             filter: `name ~ "${query}"`
