@@ -3,7 +3,7 @@ import {RouterProvider} from 'react-router-dom';
 import {router} from "./router/router";
 import './main.css';
 import {ChakraProvider, createSystem, defaultConfig, defineConfig} from "@chakra-ui/react";
-import {ColorModeProvider} from "./components/ui/color-mode";
+import {ColorModeProvider} from "@ui/color-mode";
 import {AppContextProvider} from "@context/AppContextProvider/AppContextProvider";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 

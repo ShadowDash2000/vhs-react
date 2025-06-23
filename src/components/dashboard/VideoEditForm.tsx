@@ -1,7 +1,7 @@
 import {Box, Button, Field, FileUpload, Flex, Icon, Input, Select, Textarea, useFileUpload} from "@chakra-ui/react";
 import {useForm} from "react-hook-form";
 import {LuUpload} from "react-icons/lu";
-import {type FC, useEffect, useRef, useState} from "react";
+import {type FC, useState} from "react";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import {
     type VideoRecord,
@@ -13,6 +13,7 @@ import {SelectBox} from "@ui/select/select";
 import {usePlaylists} from "@context/PlaylistsContext";
 import {Search} from "@ui/search/search";
 import {createCollection} from "@shared/helpers/createCollection";
+import {useSkip} from "@shared/hook/useSkip";
 
 interface VideoEditFormProps {
     videoId: string
@@ -49,15 +50,11 @@ export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess
     });
 
     const {data: playlists, setOptions} = usePlaylists();
-    const countRef = useRef<number>(0);
     const [playlistsCollection, setPlaylistsCollection] = useState(createCollection(playlists));
 
-    useEffect(() => {
-        if (countRef.current > 0) {
-            setPlaylistsCollection(createCollection(playlists));
-        }
-        ++countRef.current;
-    }, [playlists]);
+    useSkip(() => {
+        setPlaylistsCollection(createCollection(playlists));
+    }, [playlists])
 
     const onSubmit = async (values: FormFieldsProps) => {
         try {
