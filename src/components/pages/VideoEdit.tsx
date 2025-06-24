@@ -1,17 +1,20 @@
 import {useParams} from "react-router-dom";
-import {VideoProvider} from "@context/VideoContext";
 import {VideoEditDashboard} from "../dashboard/VideoEditDashboard";
 import { PlaylistsProvider } from "@context/PlaylistsContext";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
+import {CollectionOneProvider} from "@context/CollectionOneContext";
 
 const VideoEdit = () => {
     const {videoId} = useParams();
-    const {user} = useAppContext();
-
     if (!videoId) return null;
 
+    const {pb, user} = useAppContext();
+
     return (
-        <VideoProvider videoId={videoId}>
+        <CollectionOneProvider
+            collection={pb.collection('videos')}
+            recordId={videoId}
+        >
             <PlaylistsProvider
                 pageSize={10}
                 options={{
@@ -20,7 +23,7 @@ const VideoEdit = () => {
             >
                 <VideoEditDashboard/>
             </PlaylistsProvider>
-        </VideoProvider>
+        </CollectionOneProvider>
     )
 }
 

@@ -1,11 +1,11 @@
 import {Table, For} from "@chakra-ui/react";
-import {VideoCell} from "./VideoCell";
 import {PaginationBox} from "./PaginationBox";
-import {useVideos} from "@context/VideosListContext";
 import {useNavigate} from "react-router-dom";
+import {usePlaylists} from "@context/PlaylistsContext";
+import {PlaylistCell} from "./PlaylistCell";
 
-export const VideoListTable = () => {
-    const {data: videos} = useVideos();
+export const PlaylistListTable = () => {
+    const {data: playlists} = usePlaylists();
     const navigate = useNavigate();
 
     return (
@@ -16,27 +16,26 @@ export const VideoListTable = () => {
                         <Table.ColumnHeader></Table.ColumnHeader>
                         <Table.ColumnHeader>Название</Table.ColumnHeader>
                         <Table.ColumnHeader textAlign="center">Дата</Table.ColumnHeader>
-                        <Table.ColumnHeader textAlign="center">Статус</Table.ColumnHeader>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    <For each={videos.items}>
+                    <For each={playlists.items}>
                         {(item) => (
                             <Table.Row
                                 key={item.id}
                                 cursor="pointer"
-                                onClick={() => navigate(`/dashboard/video/${item.id}`)}
+                                onClick={() => navigate(`/dashboard/playlist/${item.id}`)}
                             >
-                                <VideoCell video={item}/>
+                                <PlaylistCell playlist={item}/>
                             </Table.Row>
                         )}
                     </For>
                 </Table.Body>
             </Table.Root>
             <PaginationBox
-                count={videos.totalItems}
-                pageSize={videos.perPage}
-                page={videos.page}
+                count={playlists.totalItems}
+                pageSize={playlists.perPage}
+                page={playlists.page}
             />
         </>
     )

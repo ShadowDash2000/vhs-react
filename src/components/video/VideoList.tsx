@@ -1,11 +1,17 @@
-import {Flex, For, Grid, Text} from "@chakra-ui/react";
+import {Flex, For, Grid, Text, Heading} from "@chakra-ui/react";
 import {VideoCard} from "./VideoCard";
 import {useInfiniteVideos} from "@context/VideosInfiniteContext";
 import {useInView} from "react-intersection-observer";
 import {LuArrowDown, LuArrowUp} from "react-icons/lu";
 import {Sort} from "@shared/hook/useSort";
+import {PlaylistRecord} from "@shared/types/types";
+import {FC} from "react";
 
-export const VideoList = () => {
+export type VideoListProps = {
+    playlist?: PlaylistRecord
+}
+
+export const VideoList: FC<VideoListProps> = ({playlist}) => {
     const {
         data: videos,
         isFetching,
@@ -27,12 +33,22 @@ export const VideoList = () => {
 
     return (
         <Flex direction="column">
-            <Flex justify="end">
-                <Flex onClick={() => sortToggle('created')} pb={5} gap={1} align="center" cursor="pointer">
-                    <Text userSelect="none">По дате</Text>
-                    {sortIs('created', Sort.DESC) ? <LuArrowDown/> : <LuArrowUp/>}
+            {playlist ?
+                <Flex justify="space-between" pb={5}>
+                    <Heading size="4xl">{playlist.name}</Heading>
+                    <Flex onClick={() => sortToggle('created')} gap={1} align="center" cursor="pointer">
+                        <Text userSelect="none">По дате</Text>
+                        {sortIs('created', Sort.DESC) ? <LuArrowDown/> : <LuArrowUp/>}
+                    </Flex>
                 </Flex>
-            </Flex>
+                :
+                <Flex justify="end" pb={5}>
+                    <Flex onClick={() => sortToggle('created')} gap={1} align="center" cursor="pointer">
+                        <Text userSelect="none">По дате</Text>
+                        {sortIs('created', Sort.DESC) ? <LuArrowDown/> : <LuArrowUp/>}
+                    </Flex>
+                </Flex>
+            }
             <Grid templateColumns="repeat(4, 1fr)" gap={3} alignItems="start">
                 <For each={videos.pages}>
                     {list => (

@@ -1,16 +1,21 @@
 import {useParams} from "react-router-dom";
 import {VideoDetail} from "../video/VideoDetail";
-import {VideoProvider} from "@context/VideoContext";
+import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
+import {CollectionOneProvider} from "@context/CollectionOneContext";
 
 const Video = () => {
     const {videoId} = useParams();
-
     if (!videoId) return null;
 
+    const {pb} = useAppContext();
+
     return (
-        <VideoProvider videoId={videoId}>
+        <CollectionOneProvider
+            collection={pb.collection('videos')}
+            recordId={videoId}
+        >
             <VideoDetail/>
-        </VideoProvider>
+        </CollectionOneProvider>
     )
 }
 

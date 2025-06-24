@@ -2,17 +2,18 @@ import {MediaPlayer, MediaPlayerInstance, MediaProvider, Poster, TextTrack} from
 import {defaultLayoutIcons, DefaultVideoLayout} from '@vidstack/react/player/layouts/default';
 import '@vidstack/react/player/styles/default/theme.css';
 import '@vidstack/react/player/styles/default/layouts/video.css';
-import {useVideo} from "@context/VideoContext.tsx";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import {Box, Heading} from "@chakra-ui/react";
 import {useEffect, useMemo, useRef} from "react";
 import {Collapse} from "@ui/collapse/collapse"
 import {PrettyDescription} from "./PrettyDescription";
 import {MediaContextProvider} from "@context/MediaContextProvider";
+import {useCollectionOne} from "@context/CollectionOneContext";
+import type {VideoRecord} from "@shared/types/types";
 
 export const VideoDetail = () => {
     const {pb} = useAppContext();
-    const {data: video} = useVideo();
+    const {data: video} = useCollectionOne<VideoRecord>();
     const player = useRef<MediaPlayerInstance | null>(null);
     const track = useMemo(() => {
         if (!video.info?.chapters || !video.info?.duration) return null;

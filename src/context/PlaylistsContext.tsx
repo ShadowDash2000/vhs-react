@@ -9,14 +9,13 @@ import type {ListOptions, ListResult} from "pocketbase";
 
 interface PlaylistsProviderProps {
     pageSize: number
+    page?: number
     options?: ListOptions
     children: ReactNode
 }
 
 interface PlaylistsProviderType {
     data: ListResult<PlaylistRecord>
-    page: number
-    setPage: Dispatch<SetStateAction<number>>
     setOptions: Dispatch<SetStateAction<ListOptions>>
 }
 
@@ -25,12 +24,12 @@ const PlaylistsContext = createContext({} as PlaylistsProviderType);
 export const PlaylistsProvider: FC<PlaylistsProviderProps> = (
     {
         pageSize,
+        page = 1,
         options: opts,
         children,
     }
 ) => {
     const {pb} = useAppContext();
-    const [page, setPage] = useState(1);
     const [options, setOptions] = useState(opts);
     const {isPending, isError, data, error} = useQuery({
         queryKey: ['playlists', page, options],
@@ -49,7 +48,7 @@ export const PlaylistsProvider: FC<PlaylistsProviderProps> = (
     }
 
     return (
-        <PlaylistsContext.Provider value={{data, page, setPage, setOptions}}>
+        <PlaylistsContext.Provider value={{data, setOptions}}>
             {children}
         </PlaylistsContext.Provider>
     )

@@ -38,7 +38,7 @@ const Playlist = () => {
             initialSort={new Map([['created', Sort.DESC]])}
             options={{filter}}
         >
-            <VideoList/>
+            <VideoList playlist={playlist}/>
         </VideosInfiniteProvider>
     )
 }
