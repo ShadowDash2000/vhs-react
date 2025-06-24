@@ -1,8 +1,8 @@
 import {useParams} from "react-router-dom";
 import {VideoEditDashboard} from "../dashboard/VideoEditDashboard";
-import { PlaylistsProvider } from "@context/PlaylistsContext";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import {CollectionOneProvider} from "@context/CollectionOneContext";
+import {CollectionListProvider} from "@context/CollectionListContext";
 
 const VideoEdit = () => {
     const {videoId} = useParams();
@@ -15,14 +15,15 @@ const VideoEdit = () => {
             collection={pb.collection('videos')}
             recordId={videoId}
         >
-            <PlaylistsProvider
+            <CollectionListProvider
+                collection={pb.collection('playlists')}
                 pageSize={10}
                 options={{
                     filter: `user = "${user?.id}"`,
                 }}
             >
                 <VideoEditDashboard/>
-            </PlaylistsProvider>
+            </CollectionListProvider>
         </CollectionOneProvider>
     )
 }

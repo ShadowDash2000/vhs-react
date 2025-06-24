@@ -1,11 +1,12 @@
 import {Table, For} from "@chakra-ui/react";
 import {VideoCell} from "./VideoCell";
 import {PaginationBox} from "./PaginationBox";
-import {useVideos} from "@context/VideosListContext";
 import {useNavigate} from "react-router-dom";
+import {useCollectionList} from "@context/CollectionListContext";
+import type {VideoRecord} from "@shared/types/types";
 
 export const VideoListTable = () => {
-    const {data: videos} = useVideos();
+    const {data: videos} = useCollectionList<VideoRecord>();
     const navigate = useNavigate();
 
     return (

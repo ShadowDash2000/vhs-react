@@ -1,11 +1,12 @@
 import {Table, For} from "@chakra-ui/react";
 import {PaginationBox} from "./PaginationBox";
 import {useNavigate} from "react-router-dom";
-import {usePlaylists} from "@context/PlaylistsContext";
 import {PlaylistCell} from "./PlaylistCell";
+import {useCollectionList} from "@context/CollectionListContext";
+import type {PlaylistRecord} from "@shared/types/types";
 
 export const PlaylistListTable = () => {
-    const {data: playlists} = usePlaylists();
+    const {data: playlists} = useCollectionList<PlaylistRecord>();
     const navigate = useNavigate();
 
     return (

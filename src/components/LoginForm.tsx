@@ -2,6 +2,7 @@ import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import {Button, Input, Field, Flex} from "@chakra-ui/react";
 import {useForm} from "react-hook-form";
 import {PasswordInput} from "./ui/password-input/password-input";
+import type {UserRecord} from "@shared/types/types";
 
 type LoginFormValues = {
     login: string
@@ -23,7 +24,7 @@ export const LoginForm = () => {
         );
 
         if (authResult.token) {
-            setUser(authResult.record);
+            setUser(authResult.record as UserRecord);
         }
     }
 

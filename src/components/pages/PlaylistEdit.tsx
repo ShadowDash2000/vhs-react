@@ -2,7 +2,7 @@ import {useParams} from "react-router-dom";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import {PlaylistEditDashboard} from "../dashboard/PlaylistEditDashboard";
 import {CollectionOneProvider} from "@context/CollectionOneContext";
-import {VideosListProvider} from "@context/VideosListContext";
+import {CollectionListProvider} from "@context/CollectionListContext";
 
 const PlaylistEdit = () => {
     const {playlistId} = useParams();
@@ -15,9 +15,12 @@ const PlaylistEdit = () => {
             collection={pb.collection('playlists')}
             recordId={playlistId}
         >
-            <VideosListProvider pageSize={10}>
+            <CollectionListProvider
+                collection={pb.collection('videos')}
+                pageSize={10}
+            >
                 <PlaylistEditDashboard/>
-            </VideosListProvider>
+            </CollectionListProvider>
         </CollectionOneProvider>
     )
 }

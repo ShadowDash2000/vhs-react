@@ -1,13 +1,13 @@
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {useEffect} from "react";
-import {VideosListProvider} from "@context/VideosListContext";
 import {VideoListTable} from "../dashboard/VideoListTable";
 import {Flex} from "@chakra-ui/react";
 import DashboardHeader from "../dashboard/DashboardHeader";
+import {CollectionListProvider} from "@context/CollectionListContext";
 
 const DashboardVideos = () => {
-    const {isAuth} = useAppContext();
+    const {pb, isAuth} = useAppContext();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const page = parseInt(searchParams.get('page') || '1');
@@ -17,7 +17,8 @@ const DashboardVideos = () => {
     }, []);
 
     return (
-        <VideosListProvider
+        <CollectionListProvider
+            collection={pb.collection('videos')}
             page={page}
             pageSize={20}
             options={{sort: "-created"}}
@@ -26,7 +27,7 @@ const DashboardVideos = () => {
                 <DashboardHeader/>
                 <VideoListTable/>
             </Flex>
-        </VideosListProvider>
+        </CollectionListProvider>
     )
 }
 

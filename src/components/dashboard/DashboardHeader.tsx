@@ -1,15 +1,15 @@
 import {Flex, Menu, Tabs} from "@chakra-ui/react";
 import {MenuBox} from "@ui/menu/menu";
-import {PlaylistsProvider} from "@context/PlaylistsContext";
 import {UploadModal} from "./UploadModal";
 import {LuCloudUpload} from "react-icons/lu";
 import {PlaylistModal} from "./PlaylistModal";
 import {RiPlayListAddLine} from "react-icons/ri";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
+import {CollectionListProvider} from "@context/CollectionListContext";
 
 const DashboardHeader = () => {
-    const {user} = useAppContext();
+    const {pb, user} = useAppContext();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -33,7 +33,8 @@ const DashboardHeader = () => {
                 label="Создать"
                 unmountOnExit={false}
             >
-                <PlaylistsProvider
+                <CollectionListProvider
+                    collection={pb.collection('playlists')}
                     pageSize={10}
                     options={{
                         filter: `user = "${user?.id}"`,
@@ -46,7 +47,7 @@ const DashboardHeader = () => {
                             </Flex>
                         </Menu.Item>
                     </UploadModal>
-                </PlaylistsProvider>
+                </CollectionListProvider>
                 <PlaylistModal title={"Создать плейлист"}>
                     <Menu.Item value="create-playlist">
                         <Flex alignItems="center" gap={2}>

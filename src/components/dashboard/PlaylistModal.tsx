@@ -1,7 +1,8 @@
 import {type FC, type ReactNode, useState} from "react";
 import {CloseButton, Dialog, Portal} from "@chakra-ui/react";
 import {PlaylistEditForm} from "./PlaylistEditForm";
-import {VideosListProvider} from "@context/VideosListContext";
+import {CollectionListProvider} from "@context/CollectionListContext";
+import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 
 interface PlaylistModalProps {
     title: string;
@@ -9,6 +10,7 @@ interface PlaylistModalProps {
 }
 
 export const PlaylistModal: FC<PlaylistModalProps> = ({title, children}) => {
+    const {pb} = useAppContext();
     const [open, setOpen] = useState<boolean>(false);
     return (
         <Dialog.Root
@@ -27,9 +29,12 @@ export const PlaylistModal: FC<PlaylistModalProps> = ({title, children}) => {
                             <Dialog.Title>{title}</Dialog.Title>
                         </Dialog.Header>
                         <Dialog.Body>
-                            <VideosListProvider pageSize={10}>
+                            <CollectionListProvider
+                                collection={pb.collection('videos')}
+                                pageSize={10}
+                            >
                                 <PlaylistEditForm onSuccess={() => setOpen(false)}/>
-                            </VideosListProvider>
+                            </CollectionListProvider>
                         </Dialog.Body>
                         <Dialog.CloseTrigger asChild>
                             <CloseButton size="sm"/>

@@ -3,17 +3,13 @@ import {useForm} from "react-hook-form";
 import {LuUpload} from "react-icons/lu";
 import {type FC, useState} from "react";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
-import {
-    type VideoRecord,
-    VideosStatusOptions,
-    VideoStatusOptionsCollection,
-    type VideoStatusOptionsCollectionType
-} from "@shared/types/types";
+import type {PlaylistRecord, VideoRecord, VideoStatusOptionsCollectionType} from "@shared/types/types";
+import {VideosStatusOptions, VideoStatusOptionsCollection} from "@shared/types/types";
 import {SelectBox} from "@ui/select/select";
-import {usePlaylists} from "@context/PlaylistsContext";
 import {Search} from "@ui/search/search";
 import {createCollection} from "@shared/helpers/createCollection";
 import {useSkip} from "@shared/hook/useSkip";
+import {useCollectionList} from "@context/CollectionListContext";
 
 interface VideoEditFormProps {
     videoId: string
@@ -49,7 +45,7 @@ export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess
         },
     });
 
-    const {data: playlists, setOptions} = usePlaylists();
+    const {data: playlists, setOptions} = useCollectionList<PlaylistRecord>();
     const [playlistsCollection, setPlaylistsCollection] = useState(createCollection(playlists));
 
     useSkip(() => {

@@ -1,9 +1,10 @@
-import {useInfinitePlaylists} from "@context/PlaylistsInfiniteContext";
 import {useInView} from "react-intersection-observer";
 import {Flex, For, Grid, Text} from "@chakra-ui/react";
 import {Sort} from "@shared/hook/useSort";
 import {LuArrowDown, LuArrowUp} from "react-icons/lu";
 import {PlaylistsCard} from "./PlaylistsCard";
+import {useCollectionListInfinite} from "@context/CollectionListInfiniteContext";
+import type {PlaylistRecord} from "@shared/types/types";
 
 export const PlaylistsList = () => {
     const {
@@ -13,7 +14,7 @@ export const PlaylistsList = () => {
         fetchNextPage,
         sortIs,
         sortToggle,
-    } = useInfinitePlaylists();
+    } = useCollectionListInfinite<PlaylistRecord>();
 
     const { ref } = useInView({
         onChange: async (inView) => {

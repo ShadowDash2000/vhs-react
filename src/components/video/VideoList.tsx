@@ -1,11 +1,11 @@
 import {Flex, For, Grid, Text, Heading} from "@chakra-ui/react";
 import {VideoCard} from "./VideoCard";
-import {useInfiniteVideos} from "@context/VideosInfiniteContext";
 import {useInView} from "react-intersection-observer";
 import {LuArrowDown, LuArrowUp} from "react-icons/lu";
 import {Sort} from "@shared/hook/useSort";
-import {PlaylistRecord} from "@shared/types/types";
-import {FC} from "react";
+import type {FC} from "react";
+import {useCollectionListInfinite} from "@context/CollectionListInfiniteContext";
+import type {PlaylistRecord, VideoRecord} from "@shared/types/types";
 
 export type VideoListProps = {
     playlist?: PlaylistRecord
@@ -19,7 +19,7 @@ export const VideoList: FC<VideoListProps> = ({playlist}) => {
         fetchNextPage,
         sortIs,
         sortToggle,
-    } = useInfiniteVideos();
+    } = useCollectionListInfinite<VideoRecord>();
 
     const {ref} = useInView({
         onChange: async (inView) => {
