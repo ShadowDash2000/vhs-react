@@ -28,7 +28,6 @@ export const useVideoUpload = () => {
         setWsConnect(false);
     }
 
-
     const {sendMessage, sendJsonMessage, lastMessage, readyState} = useWebSocket(
         `${import.meta.env.VITE_WEBSOCKET}/api/upload`,
         {

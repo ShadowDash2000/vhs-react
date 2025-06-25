@@ -4,12 +4,17 @@ import {useVideoUpload} from "./useVideoUpload";
 import {VideoFileUpload} from "./VideoFileUpload";
 import {VideoEditForm} from "./VideoEditForm";
 import {DialogBox} from "@ui/dialog/dialog";
+import {useQueryClient} from "@tanstack/react-query";
+import {CollectionListAllProvider} from "@context/CollectionListAllContext";
+import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 
 interface UploadModalProps {
     children?: ReactNode;
 }
 
 export const UploadModal: FC<UploadModalProps> = ({children}) => {
+    const {pb, user} = useAppContext();
+    const queryClient = useQueryClient();
     const [open, setOpen] = useState<boolean>(false);
     const {
         uploading,
@@ -21,18 +26,23 @@ export const UploadModal: FC<UploadModalProps> = ({children}) => {
     } = useVideoUpload();
     const [openCancelDialog, setOpenCancelDialog] = useState<boolean>(false);
 
+    const onOpenChange = (open: boolean) => {
+        if (uploading) {
+            setOpenCancelDialog(true);
+        } else {
+            setOpen(open);
+            !open && queryClient.invalidateQueries({
+                queryKey: ['videos'],
+            });
+        }
+    }
+
     return (
         <>
             <Dialog.Root
                 lazyMount
                 open={open}
-                onOpenChange={(e) => {
-                    if (uploading) {
-                        setOpenCancelDialog(true);
-                    } else {
-                        setOpen(e.open);
-                    }
-                }}>
+                onOpenChange={(e) => onOpenChange(e.open)}>
                 <Dialog.Trigger asChild>
                     {children}
                 </Dialog.Trigger>
@@ -47,12 +57,19 @@ export const UploadModal: FC<UploadModalProps> = ({children}) => {
                                 {
                                     uploading || success ?
                                         <Box>
-                                            <VideoEditForm
-                                                videoId={videoId}
-                                                onSuccess={() => {
-                                                    setOpen(false);
+                                            <CollectionListAllProvider
+                                                collection={pb.collection('playlists')}
+                                                options={{
+                                                    filter: `user = "${user?.id}"`,
                                                 }}
-                                            />
+                                            >
+                                                <VideoEditForm
+                                                    videoId={videoId}
+                                                    onSuccess={() => {
+                                                        setOpen(false);
+                                                    }}
+                                                />
+                                            </CollectionListAllProvider>
                                             <Text>
                                                 {
                                                     success
@@ -78,7 +95,7 @@ export const UploadModal: FC<UploadModalProps> = ({children}) => {
                     body="Видео все еще загружается."
                     onSubmit={() => {
                         stopUploading();
-                        setOpen(false);
+                        onOpenChange(false);
                     }}
                     onCancel={() => {
                         setOpenCancelDialog(false);

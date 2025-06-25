@@ -7,9 +7,10 @@ import type {PlaylistRecord, VideoRecord, VideoStatusOptionsCollectionType} from
 import {VideosStatusOptions, VideoStatusOptionsCollection} from "@shared/types/types";
 import {SelectBox} from "@ui/select/select";
 import {Search} from "@ui/search/search";
-import {createCollection} from "@shared/helpers/createCollection";
+import {createRecordCollection} from "@shared/helpers/createCollection";
 import {useSkip} from "@shared/hook/useSkip";
-import {useCollectionList} from "@context/CollectionListContext";
+import {toaster} from "@ui/toaster";
+import {useCollectionListAll} from "@context/CollectionListAllContext";
 
 interface VideoEditFormProps {
     videoId: string
@@ -45,11 +46,11 @@ export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess
         },
     });
 
-    const {data: playlists, setOptions} = useCollectionList<PlaylistRecord>();
-    const [playlistsCollection, setPlaylistsCollection] = useState(createCollection(playlists));
+    const {data: playlists, setOptions} = useCollectionListAll<PlaylistRecord>();
+    const [playlistsCollection, setPlaylistsCollection] = useState(createRecordCollection(playlists));
 
     useSkip(() => {
-        setPlaylistsCollection(createCollection(playlists));
+        setPlaylistsCollection(createRecordCollection(playlists));
     }, [playlists])
 
     const onSubmit = async (values: FormFieldsProps) => {
@@ -77,6 +78,11 @@ export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess
 
             if (!res.ok) setResError('Ошибка при сохранении.');
             if (onSuccess) onSuccess();
+
+            toaster.create({
+                description: 'Видео успешно сохранено.',
+                type: 'success',
+            });
         } catch (error) {
             console.error(error);
             setResError('Ошибка при сохранении.');

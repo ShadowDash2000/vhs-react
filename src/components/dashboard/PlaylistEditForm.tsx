@@ -4,9 +4,10 @@ import {type FC, useState} from "react";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import type {PlaylistRecord, VideoRecord} from "@shared/types/types";
 import {Search} from "@ui/search/search";
-import {createCollection} from "@shared/helpers/createCollection";
+import {createRecordCollection} from "@shared/helpers/createCollection";
 import {useSkip} from "@shared/hook/useSkip";
-import {useCollectionList} from "@context/CollectionListContext";
+import {toaster} from "@ui/toaster";
+import {useCollectionListAll} from "@context/CollectionListAllContext";
 
 interface PlaylistEditFormProps {
     playlist?: PlaylistRecord
@@ -25,11 +26,11 @@ export const PlaylistEditForm: FC<PlaylistEditFormProps> = ({playlist, onSuccess
         handleSubmit,
         formState
     } = useForm<PlaylistFormFieldsProps>();
-    const {data: videos, setOptions} = useCollectionList<VideoRecord>();
-    const [videosCollection, setVideosCollection] = useState(createCollection(videos));
+    const {data: videos, setOptions} = useCollectionListAll<VideoRecord>();
+    const [videosCollection, setVideosCollection] = useState(createRecordCollection(videos));
 
     useSkip(() => {
-        setVideosCollection(createCollection(videos));
+        setVideosCollection(createRecordCollection(videos));
     }, [videos])
 
     const [resError, setResError] = useState<string>('');
@@ -52,6 +53,11 @@ export const PlaylistEditForm: FC<PlaylistEditFormProps> = ({playlist, onSuccess
 
             if (!res.ok) setResError('Ошибка при сохранении.');
             if (onSuccess) onSuccess();
+
+            toaster.create({
+                description: 'Плейлист успешно сохранено.',
+                type: 'success',
+            });
         } catch (error) {
             console.error(error);
             setResError('Ошибка при сохранении.');
@@ -84,6 +90,7 @@ export const PlaylistEditForm: FC<PlaylistEditFormProps> = ({playlist, onSuccess
                     label="Поиск видео"
                     collection={videosCollection}
                     multiple
+                    defaultValue={playlist?.videos}
                     {...register('videos', {required: false})}
                     onInputChange={(query) => {
                         setOptions(prev => ({

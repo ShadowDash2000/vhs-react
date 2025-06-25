@@ -51,6 +51,7 @@ export const VideoDetail = () => {
                     type: 'video/mp4',
                 }}
                 ref={player}
+                storage="video_player"
             >
                 <MediaProvider>
                     <Poster src={pb.files.getURL(video, video.preview, {thumb: '1280x0'})}/>

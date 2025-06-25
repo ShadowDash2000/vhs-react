@@ -29,7 +29,9 @@ const Playlist = () => {
         return <Text>Error: {error.message}</Text>
     }
 
-    const filter = playlist.videos.map(video => `id="${video}"`).join("||");
+    let filter = playlist.videos.map(video => `id="${video}"`).join("||");
+
+    if (!filter) filter = 'id=""';
 
     return (
         <CollectionListInfiniteProvider

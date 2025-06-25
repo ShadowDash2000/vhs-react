@@ -5,11 +5,8 @@ import {LuCloudUpload} from "react-icons/lu";
 import {PlaylistModal} from "./PlaylistModal";
 import {RiPlayListAddLine} from "react-icons/ri";
 import {useLocation, useNavigate} from "react-router-dom";
-import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
-import {CollectionListProvider} from "@context/CollectionListContext";
 
 const DashboardHeader = () => {
-    const {pb, user} = useAppContext();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -33,21 +30,13 @@ const DashboardHeader = () => {
                 label="Создать"
                 unmountOnExit={false}
             >
-                <CollectionListProvider
-                    collection={pb.collection('playlists')}
-                    pageSize={10}
-                    options={{
-                        filter: `user = "${user?.id}"`,
-                    }}
-                >
-                    <UploadModal>
-                        <Menu.Item value="upload-video">
-                            <Flex alignItems="center" gap={2}>
-                                <LuCloudUpload/> Загрузить видео
-                            </Flex>
-                        </Menu.Item>
-                    </UploadModal>
-                </CollectionListProvider>
+                <UploadModal>
+                    <Menu.Item value="upload-video">
+                        <Flex alignItems="center" gap={2}>
+                            <LuCloudUpload/> Загрузить видео
+                        </Flex>
+                    </Menu.Item>
+                </UploadModal>
                 <PlaylistModal title={"Создать плейлист"}>
                     <Menu.Item value="create-playlist">
                         <Flex alignItems="center" gap={2}>

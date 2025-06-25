@@ -2,6 +2,7 @@ import {Table, Image} from "@chakra-ui/react";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import type {FC} from "react";
 import {type VideoRecord, VideoStatusOptionsCollection} from "@shared/types/types"
+import {NavLink} from "react-router-dom";
 
 interface VideoCellProps {
     video: VideoRecord
@@ -15,12 +16,14 @@ export const VideoCell: FC<VideoCellProps> = ({video}) => {
     return (
         <>
             <Table.Cell width="20%">
-                <Image
-                    width="100%"
-                    height="12rem"
-                    src={pb.files.getURL(video, video.preview, {thumb: '1280x0'})}
-                    loading="lazy"
-                />
+                <NavLink to={`/dashboard/video/${video.id}`}>
+                    <Image
+                        width="100%"
+                        height="12rem"
+                        src={pb.files.getURL(video, video.preview, {thumb: '1280x0'})}
+                        loading="lazy"
+                    />
+                </NavLink>
             </Table.Cell>
             <Table.Cell>
                 {video.name}

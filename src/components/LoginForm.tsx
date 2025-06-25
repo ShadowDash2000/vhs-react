@@ -1,8 +1,9 @@
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import {Button, Input, Field, Flex} from "@chakra-ui/react";
 import {useForm} from "react-hook-form";
-import {PasswordInput} from "./ui/password-input/password-input";
+import {PasswordInput} from "@ui/password-input/password-input";
 import type {UserRecord} from "@shared/types/types";
+import {useNavigate} from "react-router-dom";
 
 type LoginFormValues = {
     login: string
@@ -11,6 +12,8 @@ type LoginFormValues = {
 
 export const LoginForm = () => {
     const {pb, setUser} = useAppContext();
+    const navigate = useNavigate();
+
     const {
         register,
         handleSubmit,
@@ -25,6 +28,7 @@ export const LoginForm = () => {
 
         if (authResult.token) {
             setUser(authResult.record as UserRecord);
+            navigate('/');
         }
     }
 

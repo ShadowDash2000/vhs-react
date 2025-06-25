@@ -5,38 +5,38 @@ interface DialogBoxProps {
     title?: string;
     body?: ReactNode;
     footer?: ReactNode;
-    trigger?: ReactNode;
     onCancel?: () => void;
     onSubmit?: () => void;
     isOpen?: boolean;
+    children?: ReactNode;
 }
 
 export const DialogBox = (
     {
         title,
         body,
-        trigger,
         onCancel,
         onSubmit,
         isOpen,
+        children,
     }: DialogBoxProps) => {
-    const [open, setOpen] = useState<boolean>(isOpen || false);
+    const [open, setOpen] = useState<boolean | undefined>(isOpen || undefined);
 
     return (
         <Dialog.Root
             open={open}
             onOpenChange={(e) => {
                 if (!e.open) {
-                    setOpen(false);
+                    !children && setOpen(false);
                     onCancel && onCancel();
                 }
             }}
             role="alertdialog"
         >
             {
-                trigger &&
+                children &&
                 <Dialog.Trigger asChild>
-                    {trigger}
+                    {children}
                 </Dialog.Trigger>
             }
             <Portal>
