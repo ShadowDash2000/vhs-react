@@ -17,7 +17,8 @@
         "@context/*": ["context/*"],
         "@pages/*": ["pages/*"],
         "@shared/*": ["shared/*"],
-        "@ui/*": ["components/ui/*"],
+       "@ui/*": ["components/ui/*"],
+       "@public/*": ["../public/*"]
      },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
      "types": [
        "vite/client",

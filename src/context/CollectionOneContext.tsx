@@ -2,7 +2,8 @@ import {type Context, createContext, type ReactNode, useContext} from "react";
 import {useQuery} from "@tanstack/react-query";
 import {LuLoader} from "react-icons/lu";
 import {Text} from "@chakra-ui/react";
-import type {RecordModel, RecordService} from "pocketbase";
+import type {ClientResponseError, RecordModel, RecordService} from "pocketbase";
+import NotFound from "../components/pages/404";
 
 interface CollectionOneProviderProps<T extends RecordModel> {
     collection: RecordService<T>
@@ -25,7 +26,12 @@ export const CollectionOneProvider = <T extends RecordModel>(
 ) => {
     const {isPending, isError, data, error} = useQuery({
         queryKey: [collection.collectionIdOrName, recordId],
-        queryFn: async () => await collection.getOne<T>(recordId)
+        queryFn: async () => await collection.getOne<T>(recordId),
+        retry: (failureCount, e: any) => {
+            const error = e as ClientResponseError;
+            if (error.status === 404) return false;
+            return failureCount < 10;
+        }
     });
 
     if (isPending) {
@@ -33,8 +39,12 @@ export const CollectionOneProvider = <T extends RecordModel>(
     }
 
     if (isError) {
+        const e = error as ClientResponseError;
+        if (e.status === 404) return <NotFound/>;
+
         return <Text>Error: {error.message}</Text>
     }
+
 
     return <CollectionOneContext.Provider value={{data}}>
         {children}
