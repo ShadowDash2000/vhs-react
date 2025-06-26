@@ -1,4 +1,9 @@
-import {MediaPlayer, MediaPlayerInstance, MediaProvider, Poster, TextTrack} from '@vidstack/react';
+import {
+    MediaPlayer,
+    MediaPlayerInstance,
+    MediaProvider,
+    TextTrack,
+} from '@vidstack/react';
 import {defaultLayoutIcons, DefaultVideoLayout} from '@vidstack/react/player/layouts/default';
 import '@vidstack/react/player/styles/default/theme.css';
 import '@vidstack/react/player/styles/default/layouts/video.css';
@@ -9,12 +14,17 @@ import {Collapse} from "@ui/collapse/collapse"
 import {PrettyDescription} from "./PrettyDescription";
 import {MediaContextProvider} from "@context/MediaContextProvider";
 import {useCollectionOne} from "@context/CollectionOneContext";
-import type {VideoRecord} from "@shared/types/types";
+import type {MediaPlayerStore, VideoRecord} from "@shared/types/types";
+import {useStore} from "@shared/hook/useStore";
+import styles from "./styles.module.css";
 
 export const VideoDetail = () => {
     const {pb} = useAppContext();
     const {data: video} = useCollectionOne<VideoRecord>();
     const player = useRef<MediaPlayerInstance | null>(null);
+    const {getStore, setStore} = useStore<MediaPlayerStore>();
+    const videoPlayerStore = getStore('video_player');
+
     const track = useMemo(() => {
         if (!video.info?.chapters || !video.info?.duration) return null;
 
@@ -34,6 +44,17 @@ export const VideoDetail = () => {
         return newTrack;
     }, []);
 
+    const savePlayerData = () => {
+        setStore('video_player', prev => {
+            prev.time = {
+                ...prev.time,
+                [video.id]: player.current?.currentTime || 0
+            }
+            prev.volume = player.current?.volume || 0.5;
+            return prev;
+        });
+    }
+
     useEffect(() => {
         if (!track) return;
 
@@ -43,19 +64,32 @@ export const VideoDetail = () => {
         }
     }, [track]);
 
+
+    useEffect(() => {
+        window.addEventListener('beforeunload', savePlayerData);
+
+        return () => {
+            window.removeEventListener('beforeunload', savePlayerData);
+            savePlayerData();
+        }
+    }, [track]);
+
     return (
         <Box maxW="100%" md={{maxW: "70%", maxH: "100%"}}>
             <MediaPlayer
                 src={{
                     src: `${import.meta.env.VITE_PB_URL}/api/video/${video.id}/stream?token=${pb.authStore.token}`,
-                    type: 'video/mp4',
+                    type: 'video/mp4'
                 }}
                 ref={player}
-                storage="video_player"
-            >
-                <MediaProvider>
-                    <Poster src={pb.files.getURL(video, video.preview, {thumb: '1280x0'})}/>
-                </MediaProvider>
+                currentTime={videoPlayerStore.time[video.id]}
+                volume={videoPlayerStore.volume}
+                style={{
+                    width: 'min(65vw, 187.5rem)',
+                    aspectRatio: '16/9',
+                    maxHeight: 'min(80vh, 87.5rem)',
+                }}>
+                <MediaProvider className={styles.mediaProvider}/>
                 <DefaultVideoLayout
                     thumbnails={pb.files.getURL(video, video.webvtt)}
                     icons={defaultLayoutIcons}

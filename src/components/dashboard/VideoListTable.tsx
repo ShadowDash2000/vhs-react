@@ -34,7 +34,7 @@ export const VideoListTable = () => {
 
     return (
         <>
-            <Table.Root size="sm" striped showColumnBorder>
+            <Table.Root size="sm" width="80vw" striped showColumnBorder>
                 <Table.Header>
                     <Table.Row>
                         <Table.ColumnHeader w="6">
@@ -47,7 +47,7 @@ export const VideoListTable = () => {
                                     setSelection(
                                         changes.checked
                                             ? videos.items.map((item) => item.id)
-                                            : [],
+                                            : []
                                     )
                                 }}
                             >

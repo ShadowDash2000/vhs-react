@@ -34,7 +34,7 @@ export const PlaylistListTable = () => {
 
     return (
         <>
-            <Table.Root size="sm" striped showColumnBorder>
+            <Table.Root size="sm" width="80vw" striped showColumnBorder>
                 <Table.Header>
                     <Table.Row>
                         <Table.ColumnHeader w="6">

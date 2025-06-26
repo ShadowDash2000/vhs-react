@@ -69,3 +69,8 @@ export type PlaylistRecord = {
     user: RecordIdString
     videos: string[]
 } & RecordModel
+
+export type MediaPlayerStore = {
+    volume: number
+    time: Record<string, number>
+}

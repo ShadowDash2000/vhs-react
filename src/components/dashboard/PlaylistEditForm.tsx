@@ -5,7 +5,6 @@ import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import type {PlaylistRecord, VideoRecord} from "@shared/types/types";
 import {Search} from "@ui/search/search";
 import {createRecordCollection} from "@shared/helpers/createCollection";
-import {useSkip} from "@shared/hook/useSkip";
 import {toaster} from "@ui/toaster";
 import {useCollectionListAll} from "@context/CollectionListAllContext";
 
@@ -26,12 +25,8 @@ export const PlaylistEditForm: FC<PlaylistEditFormProps> = ({playlist, onSuccess
         handleSubmit,
         formState
     } = useForm<PlaylistFormFieldsProps>();
-    const {data: videos, setOptions} = useCollectionListAll<VideoRecord>();
-    const [videosCollection, setVideosCollection] = useState(createRecordCollection(videos));
-
-    useSkip(() => {
-        setVideosCollection(createRecordCollection(videos));
-    }, [videos])
+    const {data: videos} = useCollectionListAll<VideoRecord>();
+    const videosCollection = createRecordCollection(videos);
 
     const [resError, setResError] = useState<string>('');
 
@@ -64,6 +59,12 @@ export const PlaylistEditForm: FC<PlaylistEditFormProps> = ({playlist, onSuccess
         }
     }
 
+    const fetchPlaylists = async (query: string) => {
+        return createRecordCollection(await pb.collection('playlists').getFullList<PlaylistRecord>({
+            filter: `name ~ "${query}"`
+        }))
+    }
+
     return (
         <Flex
             as="form"
@@ -92,12 +93,7 @@ export const PlaylistEditForm: FC<PlaylistEditFormProps> = ({playlist, onSuccess
                     multiple
                     defaultValue={playlist?.videos}
                     {...register('videos', {required: false})}
-                    onInputChange={(query) => {
-                        setOptions(prev => ({
-                            ...prev,
-                            filter: `name ~ "${query}"`
-                        }));
-                    }}
+                    fetch={fetchPlaylists}
                 />
             </Field.Root>
             {!!resError && <Box color="red.500">{resError}</Box>}
