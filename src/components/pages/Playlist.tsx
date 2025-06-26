@@ -7,6 +7,8 @@ import type {PlaylistRecord} from "@shared/types/types";
 import {LuLoader} from "react-icons/lu";
 import {Text} from "@chakra-ui/react";
 import {CollectionListInfiniteProvider} from "@context/CollectionListInfiniteContext";
+import {ClientResponseError} from "pocketbase";
+import NotFound from "./404";
 
 const Playlist = () => {
     const {playlistId} = useParams();
@@ -18,6 +20,11 @@ const Playlist = () => {
         placeholderData: keepPreviousData,
         queryFn: async () => {
             return await pb.collection('playlists').getOne<PlaylistRecord>(playlistId);
+        },
+        retry: (failureCount, e: any) => {
+            const error = e as ClientResponseError;
+            if (error.status === 404) return false;
+            return failureCount < 10;
         }
     });
 
@@ -26,6 +33,9 @@ const Playlist = () => {
     }
 
     if (isError) {
+        const e = error as ClientResponseError;
+        if (e.status === 404) return <NotFound/>;
+
         return <Text>Error: {error.message}</Text>
     }
 

@@ -10,6 +10,8 @@ import {LuLoader} from "react-icons/lu";
 import {Text} from "@chakra-ui/react";
 import type {ListOptions, ListResult, RecordModel, RecordService} from "pocketbase";
 import {Sort, useSort} from "@shared/hook/useSort";
+import type {ClientResponseError} from "pocketbase";
+import NotFound from "../components/pages/404";
 
 interface CollectionListInfiniteProviderProps<T extends RecordModel> {
     collection: RecordService<T>
@@ -65,6 +67,11 @@ export const CollectionListInfiniteProvider = <T extends RecordModel>(
             if (lastPage.page === lastPage.totalPages) return null;
             return ++lastPageParam;
         },
+        retry: (failureCount, e: any) => {
+            const error = e as ClientResponseError;
+            if (error.status === 404) return false;
+            return failureCount < 10;
+        },
     });
 
     if (isPending) {
@@ -72,6 +79,9 @@ export const CollectionListInfiniteProvider = <T extends RecordModel>(
     }
 
     if (isError) {
+        const e = error as ClientResponseError;
+        if (e.status === 404) return <NotFound/>;
+
         return <Text>Error: {error.message}</Text>
     }
 
