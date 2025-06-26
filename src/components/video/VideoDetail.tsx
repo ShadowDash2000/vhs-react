@@ -82,7 +82,7 @@ export const VideoDetail = () => {
                     type: 'video/mp4'
                 }}
                 ref={player}
-                currentTime={videoPlayerStore.time[video.id]}
+                currentTime={videoPlayerStore.time?.[video.id]}
                 volume={videoPlayerStore.volume}
                 style={{
                     width: 'min(65vw, 187.5rem)',
