@@ -11,6 +11,7 @@ const DashboardPlaylists = lazy(() => import("../components/pages/./DashboardPla
 const Login = lazy(() => import("../components/pages/Login"));
 const Playlists = lazy(() => import("../components/pages/Playlists"));
 const Playlist = lazy(() => import("../components/pages/Playlist"));
+const NotFound = lazy(() => import("../components/pages/404"));
 
 
 export const router = createBrowserRouter([
@@ -36,24 +37,28 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/video/:videoId",
-                element: <Video/>
+                element: <Video/>,
             },
             {
                 path: "/dashboard/video/:videoId",
-                element: <VideoEdit/>
+                element: <VideoEdit/>,
             },
             {
                 path: "/dashboard/playlist/:playlistId",
-                element: <PlaylistEdit/>
+                element: <PlaylistEdit/>,
             },
             {
                 path: "/playlists",
-                element: <Playlists/>
+                element: <Playlists/>,
             },
             {
                 path: "/playlists/:playlistId",
-                element: <Playlist/>
+                element: <Playlist/>,
             },
+            {
+                path: '*',
+                element: <NotFound/>
+            }
         ],
-    }
+    },
 ])

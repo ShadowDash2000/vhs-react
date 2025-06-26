@@ -16,6 +16,7 @@ export default defineConfig({
       {find: "@pages", replacement: resolve(__dirname, 'src', 'pages')},
       {find: "@shared", replacement: resolve(__dirname, 'src', 'shared')},
       {find: "@ui", replacement: resolve(__dirname, 'src', 'components', 'ui')},
+      {find: "@public", replacement: resolve(__dirname, './public')},
     ]
   }
 })
