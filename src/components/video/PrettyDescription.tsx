@@ -34,7 +34,6 @@ const parsePrettyDescription = (str: string, mediaContext: MediaContextProviderT
                 key={match.index}
                 onClick={() => {
                     mediaContext.ref.current?.remoteControl.seek(seconds)
-                    console.log(seconds)
                 }}
             >
                 {match[0]}

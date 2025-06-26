@@ -8,7 +8,6 @@ import {VideosStatusOptions, VideoStatusOptionsCollection} from "@shared/types/t
 import {SelectBox} from "@ui/select/select";
 import {Search} from "@ui/search/search";
 import {createRecordCollection} from "@shared/helpers/createCollection";
-import {useSkip} from "@shared/hook/useSkip";
 import {toaster} from "@ui/toaster";
 import {useCollectionListAll} from "@context/CollectionListAllContext";
 
@@ -46,12 +45,9 @@ export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess
         },
     });
 
-    const {data: playlists, setOptions} = useCollectionListAll<PlaylistRecord>();
-    const [playlistsCollection, setPlaylistsCollection] = useState(createRecordCollection(playlists));
+    const {data: playlists} = useCollectionListAll<PlaylistRecord>();
+    const playlistsCollection = createRecordCollection(playlists);
 
-    useSkip(() => {
-        setPlaylistsCollection(createRecordCollection(playlists));
-    }, [playlists])
 
     const onSubmit = async (values: FormFieldsProps) => {
         try {
@@ -87,6 +83,12 @@ export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess
             console.error(error);
             setResError('Ошибка при сохранении.');
         }
+    }
+
+    const fetchPlaylists = async (query: string) => {
+        return createRecordCollection(await pb.collection('playlists').getFullList<PlaylistRecord>({
+            filter: `name ~ "${query}"`
+        }))
     }
 
     return (
@@ -148,12 +150,7 @@ export const VideoEditForm: FC<VideoEditFormProps> = ({videoId, video, onSuccess
                     collection={playlistsCollection}
                     multiple={true}
                     defaultValue={video?.playlists}
-                    onInputChange={(query) => {
-                        setOptions(prev => ({
-                            ...prev,
-                            filter: `name ~ "${query}"`
-                        }));
-                    }}
+                    fetch={fetchPlaylists}
                     {...register('playlists', {required: false})}
                 />
             </Field.Root>
