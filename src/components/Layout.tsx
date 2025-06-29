@@ -12,7 +12,7 @@ const Layout = () => {
                 justify="center"
                 w="100%"
                 overflowX="hidden"
-                p="0"
+                p="0 10vw"
                 m="0"
             >
                 <Outlet/>

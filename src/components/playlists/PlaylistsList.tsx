@@ -27,14 +27,19 @@ export const PlaylistsList = () => {
     });
 
     return (
-        <Flex direction="column">
+        <Flex direction="column" width="100%">
             <Flex justify="end">
                 <Flex onClick={() => sortToggle('created')} pb={5} gap={1} align="center" cursor="pointer">
                     <Text userSelect="none">По дате</Text>
                     {sortIs('created', Sort.DESC) ? <LuArrowDown/> : <LuArrowUp/>}
                 </Flex>
             </Flex>
-            <Grid templateColumns="repeat(4, 1fr)" gap={3} alignItems="start">
+            <Grid
+                templateColumns={["repeat(1, 1fr)", undefined, undefined, "repeat(4, 1fr)"]}
+                gap={3}
+                alignItems="start"
+                justifyItems="center"
+            >
                 <For each={playlists.pages}>
                     {list => (
                         list.items.map((playlists) => (

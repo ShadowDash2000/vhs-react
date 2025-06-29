@@ -80,7 +80,7 @@ export const VideoDetail: FC<VideoDetailProps> = ({time = 0}) => {
     }, [track]);
 
     return (
-        <Box maxW="100%" md={{maxW: "70%", maxH: "100%"}}>
+        <Box>
             <MediaPlayer
                 src={{
                     src: `${import.meta.env.VITE_PB_URL}/api/video/${video.id}/stream?token=${pb.authStore.token}`,

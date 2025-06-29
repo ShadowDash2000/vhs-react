@@ -17,9 +17,9 @@ export const PlaylistsCard: FC<PlaylistsCard> = ({playlist}) => {
     const dateFormatted = date.toLocaleDateString();
 
     return (
-        <ChakraLink asChild>
+        <ChakraLink width="100%" asChild>
             <Link to={`/playlists/${playlist.id}`}>
-                <Card.Root maxW="sm" width="100%">
+                <Card.Root width="100%">
                     <Image
                         src={pb.files.getURL(playlist, playlist.preview, {thumb: '1280x0'})}
                         height="15rem"
