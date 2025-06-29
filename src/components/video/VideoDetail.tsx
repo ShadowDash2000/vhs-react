@@ -8,8 +8,8 @@ import {defaultLayoutIcons, DefaultVideoLayout} from '@vidstack/react/player/lay
 import '@vidstack/react/player/styles/default/theme.css';
 import '@vidstack/react/player/styles/default/layouts/video.css';
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
-import {Box, Heading} from "@chakra-ui/react";
-import {useEffect, useMemo, useRef} from "react";
+import {Box, Flex, Heading} from "@chakra-ui/react";
+import {FC, useEffect, useMemo, useRef} from "react";
 import {Collapse} from "@ui/collapse/collapse"
 import {PrettyDescription} from "./PrettyDescription";
 import {MediaContextProvider} from "@context/MediaContextProvider";
@@ -17,8 +17,13 @@ import {useCollectionOne} from "@context/CollectionOneContext";
 import type {MediaPlayerStore, VideoRecord} from "@shared/types/types";
 import {useStore} from "@shared/hook/useStore";
 import styles from "./styles.module.css";
+import {VideoControls} from "./VideoControls";
 
-export const VideoDetail = () => {
+interface VideoDetailProps {
+    time: number
+}
+
+export const VideoDetail: FC<VideoDetailProps> = ({time = 0}) => {
     const {pb} = useAppContext();
     const {data: video} = useCollectionOne<VideoRecord>();
     const player = useRef<MediaPlayerInstance | null>(null);
@@ -82,7 +87,7 @@ export const VideoDetail = () => {
                     type: 'video/mp4'
                 }}
                 ref={player}
-                currentTime={videoPlayerStore.time?.[video.id]}
+                currentTime={time > 0 ? time : videoPlayerStore.time?.[video.id]}
                 volume={videoPlayerStore.volume}
                 style={{
                     width: 'min(65vw, 187.5rem)',
@@ -98,10 +103,13 @@ export const VideoDetail = () => {
                     }}
                 />
             </MediaPlayer>
-            <MediaContextProvider ref={player}>
-                <Heading size="xl" as="h1" py={2}>
-                    {video.name}
-                </Heading>
+            <MediaContextProvider player={player}>
+                <Flex justify="space-between" alignItems="center">
+                    <Heading size="xl" as="h1" py={2}>
+                        {video.name}
+                    </Heading>
+                    <VideoControls/>
+                </Flex>
                 {
                     video.description
                         ? <Collapse>

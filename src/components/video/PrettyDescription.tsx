@@ -1,5 +1,7 @@
-import type {FC, ReactNode} from "react";
-import {useMediaContext, type MediaContextProviderType} from "@context/MediaContextProvider";
+import type {FC, ReactNode, RefObject} from "react";
+import {useMediaContext} from "@context/MediaContextProvider";
+import type {MediaPlayerInstance} from "@vidstack/react";
+import {Box, Tag} from "@chakra-ui/react";
 
 interface PrettyDescriptionProps {
     str: string;
@@ -14,7 +16,7 @@ const timeToSeconds = (groups: Record<string, string>) => {
     return seconds;
 };
 
-const parsePrettyDescription = (str: string, mediaContext: MediaContextProviderType) => {
+const parsePrettyDescription = (str: string, player: RefObject<MediaPlayerInstance | null>) => {
     const regexp = /(?:(?<Hours>\d{2}):)?(?<Minutes>\d{2}):(?<Seconds>\d{2})/g;
     const result: ReactNode[] = [];
 
@@ -30,14 +32,17 @@ const parsePrettyDescription = (str: string, mediaContext: MediaContextProviderT
         const seconds = timeToSeconds(groups as Record<string, string>);
 
         result.push(
-            <span
+            <Tag.Root
+                size="lg"
+                colorPalette="gray"
                 key={match.index}
                 onClick={() => {
-                    mediaContext.ref.current?.remoteControl.seek(seconds)
+                    player.current?.remoteControl.seek(seconds)
                 }}
+                cursor="pointer"
             >
-                {match[0]}
-            </span>
+                <Tag.Label>{match[0]}</Tag.Label>
+            </Tag.Root>
         );
 
         lastIndex = match.index + match[0].length;
@@ -51,8 +56,8 @@ const parsePrettyDescription = (str: string, mediaContext: MediaContextProviderT
 };
 
 export const PrettyDescription: FC<PrettyDescriptionProps> = ({str}) => {
-    const mediaContext = useMediaContext();
-    const nodes = parsePrettyDescription(str, mediaContext);
+    const {player} = useMediaContext();
+    const nodes = parsePrettyDescription(str, player);
 
     return <span>{nodes}</span>;
 };
