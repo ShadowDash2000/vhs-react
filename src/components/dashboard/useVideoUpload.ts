@@ -24,6 +24,9 @@ export const useVideoUpload = () => {
     }
 
     const stopUploading = () => {
+        setFilePos(0);
+        setFile(createEmptyFile());
+        setVideoId('');
         setUploading(false);
         setWsConnect(false);
     }
