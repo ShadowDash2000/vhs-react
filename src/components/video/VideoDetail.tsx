@@ -89,9 +89,12 @@ export const VideoDetail: FC<VideoDetailProps> = ({time = 0}) => {
                 ref={player}
                 currentTime={time > 0 ? time : videoPlayerStore.time?.[video.id]}
                 volume={videoPlayerStore.volume}
+                muted={!videoPlayerStore.volume}
                 fullscreenOrientation="any"
                 crossOrigin
                 playsInline
+                autoPlay
+                load="eager"
                 style={{
                     width: 'min(65vw, 187.5rem)',
                     aspectRatio: '16/9',

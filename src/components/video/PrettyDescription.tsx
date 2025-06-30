@@ -40,6 +40,7 @@ const parsePrettyDescription = (str: string, player: RefObject<MediaPlayerInstan
                     player.current?.remoteControl.seek(seconds)
                 }}
                 cursor="pointer"
+                as="span"
             >
                 <Tag.Label>{match[0]}</Tag.Label>
             </Tag.Root>
