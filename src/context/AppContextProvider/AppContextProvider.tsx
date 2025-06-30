@@ -7,7 +7,7 @@ const AppContext = createContext<AppProviderType>({} as AppProviderType);
 
 export const AppContextProvider = ({children}: AppContextProviderProps) => {
     const pb = useMemo(() => new PocketBase(import.meta.env.VITE_PB_URL), []);
-    const [user, setUser] = useState({} as UserRecord);
+    const [user, setUser] = useState(pb.authStore.record as UserRecord);
     const [isAuth, setIsAuth] = useState<boolean>(pb.authStore.isValid);
 
     useEffect(() => {
