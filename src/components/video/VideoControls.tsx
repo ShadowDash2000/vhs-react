@@ -1,4 +1,4 @@
-import {Menu, Portal} from "@chakra-ui/react";
+import {Button, Menu, Portal} from "@chakra-ui/react";
 import {LuShare} from "react-icons/lu";
 import {useMediaContext} from "@context/MediaContextProvider";
 
@@ -18,7 +18,9 @@ export const VideoControls = () => {
     return (
         <Menu.Root>
             <Menu.Trigger asChild>
-                <LuShare/>
+                <Button variant="ghost" size="md">
+                    <LuShare/>
+                </Button>
             </Menu.Trigger>
             <Portal>
                 <Menu.Positioner>
