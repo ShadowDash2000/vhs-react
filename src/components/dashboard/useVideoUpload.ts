@@ -3,7 +3,7 @@ import useWebSocket, {ReadyState} from "react-use-websocket";
 import {useAppContext} from "@context/AppContextProvider/AppContextProvider";
 import {createEmptyFile} from "@shared/helpers/createEmptyFile";
 
-const CHUNK_SIZE = 1024 * 1024 * 100;
+const CHUNK_SIZE = 1024 * 1024 * (Number(import.meta.env.VITE_CHUNK_SIZE) || 8);
 
 export const useVideoUpload = () => {
     const {pb} = useAppContext();
